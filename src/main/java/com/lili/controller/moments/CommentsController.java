@@ -1,10 +1,9 @@
 package com.lili.controller.moments;
 
-import model.Comments;
+import com.lili.entity.moments.Comments;
+import com.lili.service.CommentsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.CommentsService;
-import utils.ResponseUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +40,7 @@ public class CommentsController {
 //        ResponseUtils.renderJson(response, str);
 
 
-        ResponseUtils.renderJson(response, "{\"result\":\"" + result + "\"}");
+//        ResponseUtils.renderJson(response, "{\"result\":\"" + result + "\"}");
         return null;
     }
 
@@ -51,11 +50,11 @@ public class CommentsController {
     @RequestMapping("deleteOne")
     public String deleteOne(HttpServletResponse response, String id) {
         if (id == null || "".equals(id.trim())) {
-            ResponseUtils.renderJson(response, "{\"result\": \"fail\"}");
+//            ResponseUtils.renderJson(response, "{\"result\": \"fail\"}");
             return null;
         }
         String result = commentsService.deleteOne(Integer.valueOf(id));
-        ResponseUtils.renderJson(response, "{\"result\": \"" + result + "\"}");
+//        ResponseUtils.renderJson(response, "{\"result\": \"" + result + "\"}");
         return null;
     }
 }

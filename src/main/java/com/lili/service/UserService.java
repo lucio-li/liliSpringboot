@@ -1,17 +1,15 @@
 package com.lili.service;
 
 
+import com.lili.common.dto.ServiceResponse;
 import com.lili.entity.moments.User;
-
-import java.util.List;
 
 /**
  * Created by lq on 2017/12/10.
  */
 public interface UserService {
-    List<User> queryAll();
-    void insertOne(User user);
-    void updateOne(User user);
-    void deleteOne(User user);
-    User queryOne(String openid);
+    ServiceResponse queryAll();
+    ServiceResponse saveOrUpdateUser(User user);
+    ServiceResponse deleteOne(User user);
+    ServiceResponse queryOne(String openid);
 }

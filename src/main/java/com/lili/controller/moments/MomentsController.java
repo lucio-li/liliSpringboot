@@ -1,9 +1,8 @@
 package com.lili.controller.moments;
 
+import com.lili.service.MomentsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.MomentsService;
-import utils.ResponseUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +42,7 @@ public class MomentsController {
 //        ResponseUtils.renderJson(response, str);
 
 
-        ResponseUtils.renderJson(response, result);
+//        ResponseUtils.renderJson(response, result);
         return null;
     }
 
@@ -53,11 +52,11 @@ public class MomentsController {
     @RequestMapping("deleteOne")
     public String deleteOne(HttpServletResponse response, String time) {
         if (time == null || "".equals(time.trim())) {
-            ResponseUtils.renderJson(response, "{\"result\": \"fail\"}");
+//            ResponseUtils.renderJson(response, "{\"result\": \"fail\"}");
             return null;
         }
         String result = momentsService.deleteOne(time);
-        ResponseUtils.renderJson(response, "{\"result\": \"" + result + "\"}");
+//        ResponseUtils.renderJson(response, "{\"result\": \"" + result + "\"}");
         return null;
     }
 }
