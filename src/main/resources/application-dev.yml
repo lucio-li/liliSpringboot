@@ -1,0 +1,75 @@
+server:
+    port: 8777
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/lili?useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: 12345678
+        driver-class-name: com.mysql.jdbc.Driver
+    application:
+        name: lili-server
+#    cloud:
+#        zookeeper:
+#            connect-string: localhost:2181
+#            discovery:
+#                register: true
+#                instance-host:  localhost
+#                instance-port: ${server.port}
+#                instance-id: ${spring.cloud.zookeeper.discovery.instance-host}:${spring.cloud.zookeeper.discovery.instance-port}
+
+#    redis:
+#      pool:
+#        max-wait: -1
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 8
+#      database: 0
+#      host: 132.122.1.19
+#      password: redis2016
+#      port: 6379
+#      timeout: 2000
+#    cache:
+#      type: redis
+#      redis:
+#        cache-null-values: false
+#        time-to-live: 3600000ms
+
+mybatis-plus:
+    mapper-locations: classpath:/dao/**/*Dao.xml
+    #实体扫描，多个package用逗号或者分号分隔
+    typeAliasesPackage: com.lili.entity.*
+    global-config:
+        #1:数据库ID自增   2:用户输入id   3:全局唯一id(IdWorker)   4:全局唯一ID(uuid)
+        id-type: 3
+        #逻辑删除配置
+#        logic-delFcsFormApp-value: 0
+#        logic-not-delFcsFormApp-value: 1
+#        sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+        # SQL 解析缓存，开启后多租户 @SqlParser 注解生效
+        sql-parser-cache: true
+        #热更新 改动xml不用重启
+        refresh-mapper: true
+    configuration:
+        map-underscore-to-camel-case: true
+        cache-enabled: false
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql
+        jdbc-type-for-null: 'null'
+jasypt:
+  encryptor:
+    password: lili
+
+swagger:
+    basePackage: com.lili.controller
+    title: 哩哩小程序 RESTful APIs
+    description: 哩哩小程序 RESTful API 文档
+    version: 1.0.0-SNAPSHOT
+
+#主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+id-type: 0
+# Sequence序列接口实现类配置
+#key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+
+
+
+#系统配置
+imgpath: D:/images
