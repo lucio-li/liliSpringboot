@@ -71,5 +71,10 @@ id-type: 0
 
 
 
-#系统配置
+#图片存放地址
 imgpath: D:/images
+
+#微信的密钥等
+wx:
+  appid: wx43391e3140e0d290
+  secret: aa34ed5253772b13e47e25d82363c019

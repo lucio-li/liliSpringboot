@@ -12,7 +12,8 @@ Page({
     focus:false,
     momentTime: '',
     contentDetail: '',
-    basepath: app.globalData.basepath    
+    basepath: app.globalData.basepath,
+    authorizeShow: false //授权窗口是否显示   
 
   },
   //事件处理函数,跳转上传照片
@@ -24,9 +25,81 @@ Page({
   onLoad: function () {
     var that = this;
     // this.getMomentsList();
-  
+    // wx.navigateTo({
+    //   url: '../logs/logs'
+    // })
   },
-
+  /**
+ * 生命周期函数--监听页面显示
+ */
+  onShow: function () {
+    this.getMomentsList();
+    this.getUserInfo();
+  },
+  /**
+   * 授权获取用户信息
+   */
+  getUserInfo: function() {
+    var that = this;
+    wx.getUserInfo({
+      success: function (res) {
+        var userInfo = res.userInfo
+        var nickName = userInfo.nickName
+        var avatarUrl = userInfo.avatarUrl
+        that.updateUser(nickName, avatarUrl);
+      },
+      fail: function() {
+        that.setData({
+          authorizeShow: true
+        })
+      }
+    })
+  },
+  getUserMessage: function (data) {
+    console.log(data)
+    var userInfo = JSON.parse(data.detail.rawData)
+    var nickName = userInfo.nickName
+    var avatarUrl = userInfo.avatarUrl
+    this.setData({
+      authorizeShow: false
+    })
+    that.updateUser(nickName, avatarUrl);
+  },
+  /**
+   * 新增或者更新用户
+   */
+  updateUser: function (nickName, avatarUrl) {
+    wx.getStorage({
+      key: 'openid',
+      success: function(res) {
+        var options = {
+          name: nickName,
+          openid: res.data,
+          headImg: avatarUrl
+        };
+        var opp = {};
+        opp.url = "/server/user/add";
+        opp.data = options;
+        opp.method = 'POST'
+        opp.header = { "Content-Type": "application/json" };
+        app.networkRequestHide(opp, function (res) {
+          if (res.data.code == 0) {
+            
+          } else {
+            console.log("更新用户头像等信息失败");
+          }
+        })
+      },
+      fail: function() {
+        wx.showModal({
+          title: '提示',
+          content: '获取openid失败',
+          showCancel: false
+        })
+      }
+    })
+    
+  },
   //获取所有朋友圈动态的内容
   getMomentsList :function () {
     var that =  this;
@@ -148,12 +221,7 @@ Page({
       contentDetail: e.detail.value
     })
   },
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    this.getMomentsList();
-  },
+
   /**
    * 页面相关事件处理函数--监听下拉刷新
    */

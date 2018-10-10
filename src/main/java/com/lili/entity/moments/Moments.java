@@ -2,6 +2,7 @@ package com.lili.entity.moments;
 
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,15 +11,31 @@ import java.util.List;
  */
 @Data
 public class Moments {
+	/**
+	 * 主键
+	 */
+	private String id;
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+	/**
+	 * 动态的内容
+	 */
 	private String content;
-	private String time;
+	/**
+	 * 地址
+	 */
 	private String location;
-	private String directory;
-	private String avatarUrl;
+	/**
+	 * 创建人，openid
+	 */
+	private String creator;
+
 	private List<String> imageUrlLlist;
 	private List<Comments> commentsList;
-	public String numberDataTime() {
-		return this.time.replaceAll("\\D", "");
-	}
+//	public String numberDataTime() {
+//		return this.time.replaceAll("\\D", "");
+//	}
 
 }

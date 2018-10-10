@@ -1,18 +1,18 @@
 package com.lili.controller.moments;
 
+import com.lili.common.dto.ServiceResponse;
 import com.lili.service.MomentsService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * 朋友圈照片的展示，管理
  * Created by lq on 2017/12/13.
  */
-@Controller
+@RestController
 @RequestMapping("/moments")
 public class MomentsController {
     @Resource
@@ -20,30 +20,12 @@ public class MomentsController {
 
     /**
      *
-     * @param request
-     * @param response
      * 获取所有的动态
      * @return
      */
     @RequestMapping("list")
-    public String  list(HttpServletRequest request, HttpServletResponse response) {
-        String  result = null;
-
-        try {
-            result = momentsService.queryAll();
-
-            //System.out.println(momentsList.size());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//        ObjectMapper mapper = new ObjectMapper();
-//        String str = mapper.writeValueAsString(momentsList);
-//        ResponseUtils.renderJson(response, str);
-
-
-//        ResponseUtils.renderJson(response, result);
-        return null;
+    public ServiceResponse list() {
+        return momentsService.queryAll();
     }
 
     /**

@@ -3,4 +3,11 @@
   <block wx:for="{{logs}}" wx:for-item="log">
     <text class="log-item">{{index + 1}}. {{log}}</text>
   </block>
+  
 </view>
+<view class='user-info'>
+</view>
+<view class="user-info-block">
+    <view class='user-info-tips'>小程序需要授权获取头像等信息</view>
+      <button  open-type="getUserInfo" class='user-info-btn' bindgetuserinfo="getUserInfo" type='primary'>授权</button>
+  </view>

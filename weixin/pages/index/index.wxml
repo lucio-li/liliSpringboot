@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <view class="userinfo">
-    <image  class="userImageBackground" src="./image/header-background.jpg" />
+    <image  class="userImageBackground" src="../../image/header-background.jpg" />
     <image class="userInfoImage" src="{{avatarUrlList[0]}}"  ></image>
     <image class="userInfoImage herImage" src="{{avatarUrlList[1]}}"></image>
   </view>
@@ -57,3 +57,10 @@
   </view>
   <view></view>
 </view>
+<view class='user-info' wx:if="{{authorizeShow}}">
+</view>
+<view class="user-info-block"  wx:if="{{authorizeShow}}">
+    <view class='user-info-tips'>小程序需要授权获取头像等信息</view>
+    <button  open-type="getUserInfo" class='user-info-btn' bindgetuserinfo="getUserMessage" type='primary'>授权</button>
+</view>
+  

@@ -31,14 +31,14 @@ public class UploadServiceImpl implements UploadService {
 		ServiceResponse serviceResponse = ServiceResponse.createError();
 		try {
 			File file = new File(this.getClass().getResource("/").getPath());
-			String destDirectory = file.getParentFile().getParentFile().getParent() + "/images/" + moments.numberDataTime();
-			File directory = new File(destDirectory);
-			if (!directory.exists()) {
-				directory.mkdirs();
-			}
-			moments.setDirectory(destDirectory);
-			momentsDao.insertOne(moments);
-			serviceResponse = ServiceResponse.createSuccessByData(destDirectory);
+//			String destDirectory = file.getParentFile().getParentFile().getParent() + "/images/" + moments.numberDataTime();
+//			File directory = new File(destDirectory);
+//			if (!directory.exists()) {
+//				directory.mkdirs();
+//			}
+////			moments.setDirectory(destDirectory);
+//			momentsDao.insertOne(moments);
+//			serviceResponse = ServiceResponse.createSuccessByData(destDirectory);
 		} catch (Exception e) {
 			logger.error("上传文件失败");
 		}

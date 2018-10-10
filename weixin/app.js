@@ -5,6 +5,9 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs);
+    // wx.authorize({
+    //   scope: 'scope.userInfo'
+    // })
     // //微信授权头像等
     // wx.getUserInfo({
     //   success: res => {
@@ -47,12 +50,25 @@ App({
   getUserInfo: function (cb) {
 
     var that = this;
+    wx.getStorage({
+      key: 'openid',
+      success: function(res) {
+
+      }, 
+      fail: function(res) {
+        that.getOpenid();
+      }
+    })
+    
+  },
+  getOpenid: function() {
+    var that = this;            
     wx.login({
       //获取code
       success: function (res) {
         var code = res.code //返回code
         wx.request({
-          url: 'https://api.weixin.qq.com/sns/jscode2session?appid=' + that.globalData.appid + '&secret=' + that.globalData.secret + '&js_code=' + code + '&grant_type=authorization_code',
+          url: that.globalData.basepath + '/server/user/getOpenid?js_code=' + code + '&grant_type=authorization_code',
           data: {},
           header: {
             'content-type': 'application/json'
@@ -93,8 +109,8 @@ App({
     userInfo: null,
     curCity: '',
     is_login: false,
-    basepath: "https://lq555.cn/lili/",//服务器地址
-    //basepath: "http://127.0.0.1:8080/lili/",
+    //basepath: "https://lq555.cn/lili/",//服务器地址
+    basepath: "http://127.0.0.1:8777/",
     mapKey: 'L44BZ-HBMKF-UK3J3-NDARG-GNNTO-3DFKK', //腾讯地图api用到的秘钥key
     sessionId: null //当前会话的sessionId，主要用于验证码
   },

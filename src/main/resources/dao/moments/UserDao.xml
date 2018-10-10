@@ -2,32 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lili.dao.moments.UserDao">
     <resultMap id="BaseResultMap" type="com.lili.entity.moments.User">
-        <id column="userId" jdbcType="VARCHAR" property="userId" />
+        <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="openid" jdbcType="VARCHAR" property="openid" />
+        <result column="headImg" jdbcType="VARCHAR" property="headImg" />
         <!--<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />-->
     </resultMap>
     <!--<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mblc.seo.cms.htmlgen.model.CmsStaticData">-->
         <!--<result column="json" jdbcType="LONGVARCHAR" property="json" />-->
     <!--</resultMap>-->
     <select id="selectAll" resultMap="BaseResultMap">
-        select * from user 
+        select id,name, openid, headImg from user
     </select>
     <select id="queryOne" parameterType="string" resultMap="BaseResultMap">
         select * from user where openid=#{openid} 
     </select>
     <insert id="insertOne" parameterType="com.lili.entity.moments.User">
-        insert into user(userId, name, openid, headImg) values(#{userId}, #{name}, #{openid}, #{headImg})
+        insert into user(id, name, openid, headImg) values(#{id}, #{name}, #{openid}, #{headImg})
     </insert>
     <update id="updateOne" parameterType="com.lili.entity.moments.User">
-        UPDATE USER SET userId = #{userId}, name = #{name}, headImg=#{headImg}
-        <where>
-            <if test="openid != null and !&quot;&quot;.equals(openid.trim())">
-                and openid = #{openid}
-            </if>
-        </where>
+        UPDATE USER SET  name = #{name}, headImg=#{headImg} where  openid = #{openid}
+
     </update>
     <delete id="deleteOne" parameterType="com.lili.entity.moments.User">
         DELETE FROM user WHERE openid = #{openid}
     </delete>
+    <select id="queryAvatarUrlList" resultType="String">
+        select headImg from user
+    </select>
 </mapper>

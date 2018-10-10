@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-10-09 23:45:52
+Date: 2018-10-11 00:08:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,44 +31,31 @@ CREATE TABLE `attachment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of attachment
--- ----------------------------
-
--- ----------------------------
 -- Table structure for comments
 -- ----------------------------
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` varchar(128) NOT NULL,
-  `moments_time` datetime DEFAULT NULL COMMENT '发布时间',
-  `name` varchar(255) DEFAULT NULL,
-  `content_detail` varchar(255) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL COMMENT '发布时间',
+  `creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `aim_user` varchar(0) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk` (`moments_time`)
+  KEY `fk` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of comments
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for moments
 -- ----------------------------
 DROP TABLE IF EXISTS `moments`;
 CREATE TABLE `moments` (
-  `time` varchar(255) NOT NULL,
+  `id` varchar(255) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `directory` varchar(255) DEFAULT NULL,
-  `avatarUrl` varchar(255) DEFAULT NULL COMMENT '头像url地址',
-  `aimUser` varchar(255) DEFAULT NULL COMMENT '回复谁',
-  PRIMARY KEY (`time`)
+  `creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of moments
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for user
@@ -81,7 +68,3 @@ CREATE TABLE `user` (
   `headImg` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of user
--- ----------------------------

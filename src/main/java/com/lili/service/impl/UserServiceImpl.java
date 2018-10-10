@@ -2,6 +2,7 @@ package com.lili.service.impl;
 
 
 import com.lili.common.dto.ServiceResponse;
+import com.lili.common.util.UUIDUtil;
 import com.lili.dao.moments.UserDao;
 import com.lili.entity.moments.User;
 import com.lili.service.UserService;
@@ -42,14 +43,17 @@ public class UserServiceImpl implements UserService {
         try {
             User userInDB = userDao.queryOne(user.getOpenid());
             if (userInDB == null) {
+                String uuid = UUIDUtil.getUUID().toString();
+                user.setId(uuid);
                 userDao.insertOne(user);
             } else {
+                user.setId(userInDB.getId());
                 userDao.updateOne(user);
             }
             response = ServiceResponse.createSuccessByData("插入更新用户成功");
         }catch (Exception e) {
             logger.error("插入用户失败", e.getMessage());
-            response = ServiceResponse.createErrorByData("插入更新用户成功");
+            response = ServiceResponse.createErrorByData("插入更新用户失败");
         }
         return response;
         

@@ -32,8 +32,8 @@
         select * from moments where openid=#{openid}
     </select>
     <insert id="insertOne" parameterType="com.lili.entity.moments.Moments">
-        insert into moments(content, time, location, directory, avatarUrl)
-        values(#{content}, #{time}, #{location}, #{directory},  #{avatarUrl})
+        insert into moments(id, create_time, content, location, creator)
+        values(#{}, #{createTime}, #{content}, #{location},  #{creator})
     </insert>
     <delete id="deleteOne" parameterType="java.lang.String">
         DELETE FROM moments WHERE time = #{time}

@@ -11,5 +11,8 @@ Page({
         return util.formatTime(new Date(log))
       })
     })
+  },
+  getUserInfo: function(data){
+    console.log(data);
   }
 })

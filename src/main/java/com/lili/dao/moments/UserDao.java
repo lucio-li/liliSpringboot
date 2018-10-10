@@ -14,4 +14,5 @@ public interface UserDao {
     void updateOne(User user);
     void deleteOne(User user);
     User queryOne(String openid);
+    List<String> queryAvatarUrlList();
 }
