@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lili.dao.CommentsDao">
-    <resultMap id="BaseResultMap" type="com.lili.entity.Comments">
+<mapper namespace="com.lili.dao.moments.CommentsDao">
+    <resultMap id="BaseResultMap" type="com.lili.entity.moments.Comments">
         <result column="moments_time" jdbcType="VARCHAR" property="momentsTime"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="content_detail" jdbcType="VARCHAR" property="contentDetail"/>
@@ -11,7 +11,7 @@
     <select id="queryOne" parameterType="string" resultMap="BaseResultMap">
         select * from comments
     </select>
-    <insert id="insertOne" parameterType="com.lili.entity.Comments">
+    <insert id="insertOne" parameterType="com.lili.entity.moments.Comments">
         insert into comments(moments_time, name, content_detail, create_time)
         values(#{momentsTime}, #{name}, #{contentDetail}, #{createTime})
     </insert>

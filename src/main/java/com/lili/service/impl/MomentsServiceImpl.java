@@ -2,7 +2,7 @@ package com.lili.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lili.dao.MomentsDao;
+import com.lili.dao.moments.MomentsDao;
 import com.lili.entity.moments.Moments;
 import com.lili.service.MomentsService;
 import org.apache.log4j.Logger;

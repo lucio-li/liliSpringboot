@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lili.dao.MomentsDao">
-    <resultMap id="BaseResultMap" type="com.lili.entity.Moments">
+<mapper namespace="com.lili.dao.moments.MomentsDao">
+    <resultMap id="BaseResultMap" type="com.lili.entity.moments.Moments">
         <result column="content" jdbcType="VARCHAR" property="content" />
         <result column="time" jdbcType="VARCHAR" property="time" />
         <result column="location" jdbcType="VARCHAR" property="location" />
         <result column="directory" jdbcType="VARCHAR" property="directory" />
         <result column="avatarUrl" jdbcType="VARCHAR" property="avatarUrl" />
-        <collection property="commentsList" ofType="com.lili.entity.Comments">
+        <collection property="commentsList" ofType="com.lili.entity.moments.Comments">
             <result column="name" jdbcType="VARCHAR" property="name"/>
             <result column="content_detail" jdbcType="VARCHAR" property="contentDetail"/>
             <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -31,7 +31,7 @@
     <select id="queryOne" parameterType="string" resultMap="BaseResultMap">
         select * from moments where openid=#{openid}
     </select>
-    <insert id="insertOne" parameterType="com.lili.entity.Moments">
+    <insert id="insertOne" parameterType="com.lili.entity.moments.Moments">
         insert into moments(content, time, location, directory, avatarUrl)
         values(#{content}, #{time}, #{location}, #{directory},  #{avatarUrl})
     </insert>

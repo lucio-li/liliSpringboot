@@ -1,7 +1,5 @@
 package com.lili.controller.moments;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lili.entity.moments.Moments;
 import com.lili.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,31 +27,31 @@ public class UploadController {
     	//上传照片前的上传数据
 
 
-        String time = request.getParameter("time");
-
-        if (time.length() < 5) {
-            ResponseUtils.renderJson(response, "{\"result\":\"fail\"}");
-            return null;
-        }
-        String location = request.getParameter("location");
-        String content  = request.getParameter("content");
-        String avatarUrl = request.getParameter("avatarUrl");
-        Moments moments = new Moments();
-        moments.setContent(content);
-        moments.setTime(time);
-        moments.setLocation(location);
-        moments.setAvatarUrl(avatarUrl);
-        try {
-        	String directory = uploadService.addContent(moments);
-            Moments result = new Moments();
-            result.setDirectory(directory);
-            ObjectMapper mapper = new ObjectMapper();
-            String str = mapper.writeValueAsString(result);
-            ResponseUtils.renderJson(response, str);
-        } catch (Exception e) {
-            e.printStackTrace();
-            ResponseUtils.renderJson(response, "{\"result\":\"fail\"}");
-        }
+//        String time = request.getParameter("time");
+//
+//        if (time.length() < 5) {
+////            ResponseUtils.renderJson(response, "{\"result\":\"fail\"}");
+//            return null;
+//        }
+//        String location = request.getParameter("location");
+//        String content  = request.getParameter("content");
+//        String avatarUrl = request.getParameter("avatarUrl");
+//        Moments moments = new Moments();
+//        moments.setContent(content);
+//        moments.setTime(time);
+//        moments.setLocation(location);
+//        moments.setAvatarUrl(avatarUrl);
+//        try {
+////        	String directory = uploadService.addContent(moments);
+//            Moments result = new Moments();
+//            result.setDirectory(directory);
+//            ObjectMapper mapper = new ObjectMapper();
+//            String str = mapper.writeValueAsString(result);
+//            ResponseUtils.renderJson(response, str);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            ResponseUtils.renderJson(response, "{\"result\":\"fail\"}");
+//        }
         return null;
     }
 
@@ -73,10 +71,10 @@ public class UploadController {
 //                String filePath = "E:/" + file.getOriginalFilename();
                 file.transferTo(new File(filePath));
                 System.out.println("文件名" + filePath);
-                ResponseUtils.renderJson(response, "{\"success\": \" " + filePath + "\"}");
+//                ResponseUtils.renderJson(response, "{\"success\": \" " + filePath + "\"}");
             } catch (Exception e) {
                 e.printStackTrace();
-                ResponseUtils.renderJson(response, "{\"fail\": \" false\"}");
+//                ResponseUtils.renderJson(response, "{\"fail\": \" false\"}");
             }
         }
 

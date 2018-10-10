@@ -1,4 +1,4 @@
-package com.lili.dao;
+package com.lili.dao.moments;
 
 
 import com.lili.entity.moments.Comments;

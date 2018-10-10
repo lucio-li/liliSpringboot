@@ -37,7 +37,7 @@ spring:
 mybatis-plus:
     mapper-locations: classpath:/dao/**/*Dao.xml
     #实体扫描，多个package用逗号或者分号分隔
-    typeAliasesPackage: com.lili.entity.*
+    typeAliasesPackage: com.lili.entity
     global-config:
         #1:数据库ID自增   2:用户输入id   3:全局唯一id(IdWorker)   4:全局唯一ID(uuid)
         id-type: 3

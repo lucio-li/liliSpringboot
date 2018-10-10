@@ -2,7 +2,7 @@ package com.lili.service.impl;
 
 
 import com.lili.common.dto.ServiceResponse;
-import com.lili.dao.UserDao;
+import com.lili.dao.moments.UserDao;
 import com.lili.entity.moments.User;
 import com.lili.service.UserService;
 import org.slf4j.Logger;

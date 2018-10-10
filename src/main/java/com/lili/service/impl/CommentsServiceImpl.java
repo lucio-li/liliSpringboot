@@ -1,12 +1,12 @@
 package com.lili.service.impl;
 
 
-import com.lili.dao.CommentsDao;
+import com.lili.dao.moments.CommentsDao;
 import com.lili.entity.moments.Comments;
 import com.lili.service.CommentsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Service(value="commentsService")
 public class CommentsServiceImpl implements CommentsService {
-    @Resource
+    @Autowired
     private CommentsDao commentsDao;
 //    private Logger logger = Logger.getLogger(CommentsServiceImpl.class);
 
