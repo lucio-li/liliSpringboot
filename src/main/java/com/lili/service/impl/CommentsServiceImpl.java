@@ -1,11 +1,16 @@
 package com.lili.service.impl;
 
 
+import com.lili.common.dto.ServiceResponse;
+import com.lili.common.util.UUIDUtil;
 import com.lili.dao.moments.CommentsDao;
 import com.lili.entity.moments.Comments;
 import com.lili.service.CommentsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -16,32 +21,36 @@ import java.util.Date;
 public class CommentsServiceImpl implements CommentsService {
     @Autowired
     private CommentsDao commentsDao;
-//    private Logger logger = Logger.getLogger(CommentsServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(MomentsServiceImpl.class);
 
-
-    public String addOne(Comments comments) {
-        Date now = new Date();
-        comments.setCreateTime(now);
+    @Override
+    public ServiceResponse addOne(Comments comments) {
+        ServiceResponse serviceResponse = ServiceResponse.createError();
         try{
+            String id = UUIDUtil.getUUID().toString();
+            comments.setId(id);
+            comments.setStatus(1);
             commentsDao.insertOne(comments);
-            return "success";
+            serviceResponse = ServiceResponse.createSuccessByData("插入评论成功");
         } catch (Exception e) {
-            e.printStackTrace();
-            return "fail";
+            logger.error("插入评论失败", e.getMessage());
+
         }
+        return serviceResponse;
 
 
     }
 
-    public String deleteOne(int id) {
+    public ServiceResponse deleteOne(int id) {
 //        logger.info("测试log");
-        int a = commentsDao.deleteById(id);
-        if (a == 0) {
-            return "fail";//删除失败
-        } else {
-            return "success";//删除成功
-        }
+//        int a = commentsDao.deleteById(id);
+//        if (a == 0) {
+//            return "fail";//删除失败
+//        } else {
+//            return "success";//删除成功
+//        }
 
+        return ServiceResponse.createError();
 
     }
 }

@@ -12,8 +12,8 @@
         select * from comments
     </select>
     <insert id="insertOne" parameterType="com.lili.entity.moments.Comments">
-        insert into comments(moments_time, name, content_detail, create_time)
-        values(#{momentsTime}, #{name}, #{contentDetail}, #{createTime})
+        insert into comments(id, create_time, content, location, creator, update_time, status, update_user)
+        values(#{id}, NOW(), #{contentDetail}, #{location}, #{creator}, NOW(), #{status}, #{creator})
     </insert>
     <delete id="deleteById" parameterType="java.lang.String">
         DELETE FROM comments WHERE create_time = #{id}

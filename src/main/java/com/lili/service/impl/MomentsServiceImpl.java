@@ -2,6 +2,7 @@ package com.lili.service.impl;
 
 
 import com.lili.common.dto.ServiceResponse;
+import com.lili.common.util.UUIDUtil;
 import com.lili.dao.moments.MomentsDao;
 import com.lili.dao.moments.UserDao;
 import com.lili.entity.moments.Moments;
@@ -93,6 +94,8 @@ public class MomentsServiceImpl implements MomentsService {
     public ServiceResponse insertOne(Moments moments) {
         ServiceResponse response = null;
         try {
+            String id = UUIDUtil.getUUID().toString();
+            moments.setId(id);
             momentsDao.insertOne(moments);
             response = ServiceResponse.createSuccessByData("插入更新动态成功");
         } catch (Exception e) {

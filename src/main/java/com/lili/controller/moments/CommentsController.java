@@ -1,9 +1,12 @@
 package com.lili.controller.moments;
 
+import com.lili.common.dto.ServiceResponse;
 import com.lili.entity.moments.Comments;
 import com.lili.service.CommentsService;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * 朋友圈的评论的controller
  * Created by lq on 2017/12/13.
  */
-@Controller
+@RestController
 @RequestMapping("/comments")
 public class CommentsController {
     @Resource
@@ -21,27 +24,12 @@ public class CommentsController {
     /**
      *
      * @param comments
-     * @param response
      * 新增评论
      * @return
      */
-    @RequestMapping("add")
-    public String  add(Comments comments, HttpServletResponse response) {
-        String  result = null;
-        try {
-            result = commentsService.addOne(comments);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = "fail";
-        }
-
-//        ObjectMapper mapper = new ObjectMapper();
-//        String str = mapper.writeValueAsString(momentsList);
-//        ResponseUtils.renderJson(response, str);
-
-
-//        ResponseUtils.renderJson(response, "{\"result\":\"" + result + "\"}");
-        return null;
+    @PostMapping("add")
+    public ServiceResponse add(@RequestBody Comments comments) {
+        return commentsService.addOne(comments);
     }
 
     /**
@@ -49,12 +37,12 @@ public class CommentsController {
      */
     @RequestMapping("deleteOne")
     public String deleteOne(HttpServletResponse response, String id) {
-        if (id == null || "".equals(id.trim())) {
-//            ResponseUtils.renderJson(response, "{\"result\": \"fail\"}");
-            return null;
-        }
-        String result = commentsService.deleteOne(Integer.valueOf(id));
-//        ResponseUtils.renderJson(response, "{\"result\": \"" + result + "\"}");
+//        if (id == null || "".equals(id.trim())) {
+////            ResponseUtils.renderJson(response, "{\"result\": \"fail\"}");
+//            return null;
+//        }
+//        String result = commentsService.deleteOne(Integer.valueOf(id));
+////        ResponseUtils.renderJson(response, "{\"result\": \"" + result + "\"}");
         return null;
     }
 }

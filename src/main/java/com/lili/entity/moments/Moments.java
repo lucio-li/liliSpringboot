@@ -1,8 +1,8 @@
 package com.lili.entity.moments;
 
+import com.lili.entity.BaseEntity;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,15 +10,9 @@ import java.util.List;
  * 动态的实体类
  */
 @Data
-public class Moments {
-	/**
-	 * 主键
-	 */
-	private String id;
-	/**
-	 * 创建时间
-	 */
-	private Date createTime;
+public class Moments extends BaseEntity {
+
+
 	/**
 	 * 动态的内容
 	 */
@@ -27,10 +21,8 @@ public class Moments {
 	 * 地址
 	 */
 	private String location;
-	/**
-	 * 创建人，openid
-	 */
-	private String creator;
+
+
 
 	private List<String> imageUrlLlist;
 	private List<Comments> commentsList;

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-10-11 00:08:43
+Date: 2018-10-12 00:46:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,6 +40,9 @@ CREATE TABLE `comments` (
   `creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `aim_user` varchar(0) DEFAULT NULL,
+  `moments_id` varchar(128) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_user` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -54,6 +57,9 @@ CREATE TABLE `moments` (
   `content` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `status` int(255) DEFAULT '1',
+  `update_user` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

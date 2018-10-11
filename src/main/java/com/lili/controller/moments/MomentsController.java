@@ -1,7 +1,10 @@
 package com.lili.controller.moments;
 
 import com.lili.common.dto.ServiceResponse;
+import com.lili.entity.moments.Moments;
 import com.lili.service.MomentsService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,5 +43,9 @@ public class MomentsController {
         String result = momentsService.deleteOne(time);
 //        ResponseUtils.renderJson(response, "{\"result\": \"" + result + "\"}");
         return null;
+    }
+    @PostMapping("add")
+    public ServiceResponse add(@RequestBody Moments moments) {
+        return momentsService.insertOne(moments);
     }
 }
