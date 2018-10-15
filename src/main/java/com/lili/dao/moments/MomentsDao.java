@@ -1,14 +1,13 @@
 package com.lili.dao.moments;
 
 
-
 import com.lili.entity.moments.Moments;
+import com.lili.entity.vo.MomentsVo;
 
 import java.util.List;
 
 public interface MomentsDao {
-	List<Moments> queryAll();
+	List<MomentsVo> queryAll();
     void insertOne(Moments moments);
-    List<String> queryAvatarUrlList();
     int deleteOne(String time);
 }

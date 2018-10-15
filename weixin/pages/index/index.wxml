@@ -1,66 +1,89 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <image  class="userImageBackground" src="../../image/header-background.jpg" />
-    <image class="userInfoImage" src="{{avatarUrlList[0]}}"  ></image>
-    <image class="userInfoImage herImage" src="{{avatarUrlList[1]}}"></image>
-  </view>
-  <!-- <view hidden="{{hideFlag}}">
-    <text class="loadingText" >正在加载中</text>
-    <image src="image/loading.gif" class="loading"></image>
-  </view> -->
-
-
-  <view class="moments" wx:for="{{moments}}" wx:for-item="moment" wx:key="moment">
-    <view class='momentsHeader' >
-      <image class='momentsUserImage' src="{{moment.avatarUrl}}"></image>
-      <view class="momentsTips">
-        <text class="momentsTime">{{moment.time}}</text>
-        <text class="momentsLocation">{{moment.location}}</text>
+<view class="page">
+  <image class="userImageBackground" src="../../image/lover.jpg" />
+  <view class="page__hd">
+    <view class="weui-search-bar">
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+            <icon type="clear" size="14"></icon>
+          </view>
+        </view>
+        <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索</view>
+        </label>
       </view>
-      <image class="delMoment" src="image/deleteMoment.jpg" data-index="{{index}}" bindtap='deleteMoment'></image>
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
     </view>
-    <view class="momentsContent">
-      <text>{{moment.content}}</text>
-    </view>
-    <view class='momentsImageList'>
-      <view wx:for="{{moment.imageUrlLlist}}" wx:for-item="imageUrl" wx:key="iamgeUrl">
-        <image src='{{imageUrl}}' data-index="{{imageUrl}}" mode="aspectFill" class="momentsImage" bindtap="clickImage"></image>
+
+    <!-- 照片begin--->
+    <view class='weui-cells paddingT' wx:for="{{[1,2]}}">
+      <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+          <image class="weui-media-box__thumb" src="../../image/lover.jpg" />
+          <view class="weui-media-box__desc"></view>
+        </view>
+        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">2018-19-10 12:32:21</view>
+        </view>
+
+      </navigator>
+      <view class="weui-media-box weui-media-box_appmsg">
+        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
+        </view>
       </view>
-    </view>
-    
-    <view class='comments' >
-      <image class="commentBtn" src='image/comment.png' mode="widthFix" bindtap="clickComment" data-index="{{index}}"></image>
-    </view>
-    <view class="pl-other" wx:if="{{moment.commentsList.length > 0}}">
-      <view wx:for="{{moment.commentsList}}" wx:for-item="comment" wx:key="comment">
-        <!-- <text><text class="commentUserName">{{comment.name}}:</text>{{comment.contentDetail}}</text> -->
-        <view class="pl-p"><text class="org">{{comment.name}}</text>:{{comment.contentDetail}}</view>
-        <!-- <view class="pl-other">
-            <view class="pl-p"><text class="org">{{comment.name}}</text>:{{comment.contentDetail}}</view>
-        </view> -->
+
+      <view class="weui-grids">
+        <block wx:for="{{grids}}" wx:key="*this">
+
+          <image class="weui-grid img" src="../../image/lover.jpg" mode="aspectFill" />
+        </block>
       </view>
+      <!-- 照片end-->
+      <!-- 评论begin-->
+      <view class="pl-other" wx:if="1">
+        <view class="pl-p" wx:for="[1,2]" wx:key="sub_reply" wx:for-item="subReplyItem" wx:if="{{index < 3 || replyItem.subReplyHidden==false}}" bindtap='clickReply' data-parentid="{{subReplyItem.id}}" data-aim_user_name="{{subReplyItem.create_sync_name}}">
+          <text class="org">wo</text>
+          <text wx:if="{{subReplyItem.reply_id != subReplyItem.parent_id}}">回复<text class="org">ta</text></text>：dfas
+        </view>
+      </view>
+      <!-- 评论end-->
     </view>
   </view>
 
 
-  <view class="booter">
-    <view>
-      <button class="uploadImage" bindtap="bindViewTap"> 上传照片 </button>
-      <button class="menu"> 菜单 </button>
-    </view>
-  </view>
-  <view class="commentEdit" hidden='{{commentHidden}}' cursor-spacing="0" >
-    
-    <input type='text' class="commentInput" bindtap="editComment"  focus="{{focus}}" bindblur="bindBlurComment" bindinput="bindTextAreaBlur"/>
-    <button class="sendComment" bindtap='sendComment'>发送</button>
-  </view>
-  <view></view>
+
+
 </view>
 <view class='user-info' wx:if="{{authorizeShow}}">
 </view>
-<view class="user-info-block"  wx:if="{{authorizeShow}}">
-    <view class='user-info-tips'>小程序需要授权获取头像等信息</view>
-    <button  open-type="getUserInfo" class='user-info-btn' bindgetuserinfo="getUserMessage" type='primary'>授权</button>
+<view class="user-info-block" wx:if="{{authorizeShow}}">
+  <view class='user-info-tips'>小程序需要授权获取头像等信息</view>
+  <button open-type="getUserInfo" class='user-info-btn' bindgetuserinfo="getUserMessage" type='primary'>授权</button>
 </view>
-  
+
+<!--评论盒子-->
+  <view class="cf-bg" catchtap="cemojiCfBg" style="display:{{cfBg ? 'block' : 'none'}}"></view>
+  <view class="comment-fixed">
+    <view class="cf-box">
+      
+      <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="我要评论" />
+      <view class="emoji iconfont icon-emoji" catchtap="emojiShowHide"></view>
+      <text class="cf-send touch-active" bindtap="send">发送</text>
+    </view>
+
+    <!--emoji表情盒子-->
+    <view class="emoji-box {{isShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isLoad ? 'no-emoji-move' : ''}}">
+      <scroll-view scroll-y="true" bindscroll="emojiScroll" style="height:200px">
+        <block wx:for="{{emojis}}" wx:for-item="e" wx:key="">
+          <view class="emoji-cell">
+            <image class="touch-active" catchtap="emojiChoose" src="http://soupu.oss-cn-shanghai.aliyuncs.com/emoji/{{e.emoji}}.png" data-emoji="{{e.char}}" data-oxf="{{e.emoji}}"></image>
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+  </view>

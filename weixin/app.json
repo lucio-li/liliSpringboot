@@ -10,5 +10,38 @@
     "navigationBarTitleText": "哩哩相册",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#ff0033",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "全部照片",
+        "iconPath": "./image/menu-a1.jpg",
+        "selectedIconPath": "image/menu-a2.jpg"
+      
+      },
+      {
+        "pagePath": "pages/upload/upload",
+        "text": "上传照片",
+        "iconPath": "./image/menu-b1.jpg",
+        "selectedIconPath": "image/menu-b2.jpg"
+      },{
+        "pagePath": "pages/logs/logs",
+        "text": "授权",
+        "iconPath": "./image/menu-a1.jpg",
+        "selectedIconPath": "image/menu-a2.jpg"
+      },{
+        "pagePath": "pages/index/index",
+        "text": "个人中心",
+        "iconPath": "./image/menu-a1.jpg",
+        "selectedIconPath": "image/menu-a2.jpg"
+      }
+      
+    ]
   }
+
 }

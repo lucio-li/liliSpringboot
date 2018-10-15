@@ -3,8 +3,6 @@ package com.lili.entity.moments;
 import com.lili.entity.BaseEntity;
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * lq
  * 动态的实体类
@@ -24,10 +22,6 @@ public class Moments extends BaseEntity {
 
 
 
-	private List<String> imageUrlLlist;
-	private List<Comments> commentsList;
-//	public String numberDataTime() {
-//		return this.time.replaceAll("\\D", "");
-//	}
+
 
 }

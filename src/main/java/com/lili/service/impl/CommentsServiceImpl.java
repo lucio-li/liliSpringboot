@@ -27,7 +27,7 @@ public class CommentsServiceImpl implements CommentsService {
     public ServiceResponse addOne(Comments comments) {
         ServiceResponse serviceResponse = ServiceResponse.createError();
         try{
-            String id = UUIDUtil.getUUID().toString();
+            String id = UUIDUtil.getUUID();
             comments.setId(id);
             comments.setStatus(1);
             commentsDao.insertOne(comments);

@@ -25,14 +25,13 @@ public class MomentsServiceImpl implements MomentsService {
     private MomentsDao momentsDao;
     @Autowired
     private UserDao userDao;
-    @Value("${imgpath}")
-    private String imgpath;
+
     private static final Logger logger = LoggerFactory.getLogger(MomentsServiceImpl.class);
     public ServiceResponse queryAll()  {
         ServiceResponse serviceResponse = ServiceResponse.createError();
         try{
-            MomentsVo momentsVo = new MomentsVo();
-            List<Moments> momentsList = momentsDao.queryAll();
+//            MomentsVo momentsVo = new MomentsVo();
+            List<MomentsVo> momentsList = momentsDao.queryAll();
 //            for (int i = 0, len = momentsList.size(); i < len; i++) {
 //                Moments moments = momentsList.get(i);
 //                String directoryPath = moments.getDirectory();
@@ -52,10 +51,9 @@ public class MomentsServiceImpl implements MomentsService {
 //
 //                moments.setImageUrlLlist(imageUrlList);
 //            }
-            momentsVo.setMomentsList(momentsList);
+//            momentsVo.setMomentsList(momentsList);
 //            ObjectMapper mapper = new ObjectMapper();
 //            String momentsJson = mapper.writeValueAsString(momentsList);
-            List<String> avatarUrlList = userDao.queryAvatarUrlList();
 //            if(avatarUrlList.size() == 1) {
 //                avatarUrlList.add(avatarUrlList.get(0));
 //            } else if(avatarUrlList.size() == 0) {
@@ -64,15 +62,12 @@ public class MomentsServiceImpl implements MomentsService {
 //            }
 //            String avatarUrlListJson = mapper.writeValueAsString(avatarUrlList);
 //            return "{\"momentsList\":" + momentsJson + ",\"avatarUrlList\":" + avatarUrlListJson + "}";
-            momentsVo.setAvatarUrlList(avatarUrlList);
             serviceResponse = ServiceResponse.createSuccessByData(momentsList);
 
 
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
-//            return "{\"momentsList\":[],\"avatarUrlList\":''}";
-
         }
         return serviceResponse;
 

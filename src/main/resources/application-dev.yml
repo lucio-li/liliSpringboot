@@ -72,7 +72,7 @@ id-type: 0
 
 
 #图片存放地址
-imgpath: D:/images
+imgPath: D:/images
 
 #微信的密钥等
 wx:

@@ -13,7 +13,26 @@ Page({
     momentTime: '',
     contentDetail: '',
     basepath: app.globalData.basepath,
-    authorizeShow: false //授权窗口是否显示   
+    inputShowed: false,
+    inputVal: "",
+    grids: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    authorizeShow: false, //授权窗口是否显示  
+    emojiChar: "☺-😋-😌-😍-😏-😜-😝-😞-😔-😪-😭-😁-😂-😃-😅-😆-👿-😒-😓-😔-😏-😖-😘-😚-😒-😡-😢-😣-😤-😢-😨-😳-😵-😷-😸-😻-😼-😽-😾-😿-🙊-🙋-🙏-✈-🚇-🚃-🚌-🍄-🍅-🍆-🍇-🍈-🍉-🍑-🍒-🍓-🐔-🐶-🐷-👦-👧-👱-👩-👰-👨-👲-👳-💃-💄-💅-💆-💇-🌹-💑-💓-💘-🚲",
+    emoji: [
+      "60a", "60b", "60c", "60d", "60f",
+      "61b", "61d", "61e", "61f",
+      "62a", "62c", "62e",
+      "602", "603", "605", "606", "608",
+      "612", "613", "614", "615", "616", "618", "619", "620", "621", "623", "624", "625", "627", "629", "633", "635", "637",
+      "63a", "63b", "63c", "63d", "63e", "63f",
+      "64a", "64b", "64f", "681",
+      "68a", "68b", "68c",
+      "344", "345", "346", "347", "348", "349", "351", "352", "353",
+      "414", "415", "416",
+      "466", "467", "468", "469", "470", "471", "472", "473",
+      "483", "484", "485", "486", "487", "490", "491", "493", "498", "6b4"
+    ],
+    emojis: [],//qq、微信原始表情 
 
   },
   //事件处理函数,跳转上传照片
@@ -28,6 +47,19 @@ Page({
     // wx.navigateTo({
     //   url: '../logs/logs'
     // })
+    var em = {}
+    var emChar = that.data.emojiChar.split("-");
+    var emojis = []
+    that.data.emoji.forEach(function (v, i) {
+      em = {
+        char: emChar[i],
+        emoji: "0x1f" + v
+      };
+      emojis.push(em)
+    });
+    that.setData({
+      emojis: emojis
+    })
   },
   /**
  * 生命周期函数--监听页面显示
@@ -229,5 +261,49 @@ Page({
     wx.showNavigationBarLoading() //在标题栏中显示加载
     this.getMomentsList();
   },
+  showInput: function () {
+    this.setData({
+      inputShowed: true
+    });
+  },
+  hideInput: function () {
+    this.setData({
+      inputVal: "",
+      inputShowed: false
+    });
+  },
+  clearInput: function () {
+    this.setData({
+      inputVal: ""
+    });
+  },
+  inputTyping: function (e) {
+    this.setData({
+      inputVal: e.detail.value
+    });
+  },
+  //点击表情显示隐藏表情盒子
+  emojiShowHide: function () {
+    this.setData({
+      isShow: !this.data.isShow,
+      isLoad: false,
+      cfBg: !this.data.false
+    })
+  },
+  //表情选择
+  emojiChoose: function (e) {
+    //当前输入内容和表情合并
+    this.setData({
+      content: this.data.content + e.currentTarget.dataset.emoji
+    })
+  },
+  //点击emoji背景遮罩隐藏emoji盒子
+  cemojiCfBg: function () {
+    this.setData({
+      isShow: false,
+      cfBg: false
+    })
+  },
+  
 })
 

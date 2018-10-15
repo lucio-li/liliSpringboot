@@ -57,7 +57,12 @@ public class UserController {
     }
 
 
-
+    /**
+     * 获取用户的openid
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/getOpenid")
     public String  getOpenid(HttpServletRequest request, HttpServletResponse response){
 
@@ -69,4 +74,7 @@ public class UserController {
 //        ResponseUtils.renderJson(response, openid);
         return openid;
     }
+
+
+
 }

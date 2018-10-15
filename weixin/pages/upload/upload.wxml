@@ -1,28 +1,91 @@
 <!--pages/upload/upload.wxml-->
-<view class="container">
-  <view class="header">
-    <textarea placeholder='输入照片描述（选填）' maxlength='-1' bindinput="bindTextAreaBlur"></textarea>
-    
-    <!-- <view class="chooseImages" wx:for="{{images}}">
-      <image wx:key="unique" data-index="{{index}}" src="{{item}}" bindtap="clickImage"/>
-    </view> -->
-    <view class="chooseImages" wx:for="{{images}}" >
-      
-      <image class="chooseImagesList"  data-index="{{index}}" src="{{item}}" bindtap="clickImage"/>
-       <image class="deleteImageBtn"  data-index="{{index}}" src="image/delete.png" bindtap="deleteImageTap"/>
+<!-- <view class="container"> -->
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+
+  <view class="page__bd">
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="输入照片描述（选填" style="height: 5.3em" bindinput="bindTextAreaBlur" />
+          <view class="weui-textarea-counter">0/300</view>
+        </view>
+      </view>
     </view>
-    <image class="chooseImageBtn" src='image/upload.jpg' bindtap="bindChooseImages" ></image>
+    <view class="weui-cells">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <view class="weui-uploader">
+            <view class="weui-uploader__hd">
+              <view class="weui-uploader__title">图片上传</view>
+              <view class="weui-uploader__info">0/2</view>
+            </view>
+            <view class="weui-uploader__bd">
+              <view class="weui-uploader__files" id="uploaderFiles">
+                <block wx:for="{{files}}" wx:key="*this">
+                  <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+                    <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                  </view>
+                </block>
+                <view class="weui-uploader__file">
+                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                </view>
+                <view class="weui-uploader__file">
+                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                </view>
+                <view class="weui-uploader__file">
+                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                </view>
+                <view class="weui-uploader__file weui-uploader__file_status">
+                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                  <view class="weui-uploader__file-content">
+                    <icon type="warn" size="23" color="#F43530"></icon>
+                  </view>
+                </view>
+                <view class="weui-uploader__file weui-uploader__file_status">
+                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                  <view class="weui-uploader__file-content">50%</view>
+                </view>
+              </view>
+              <view class="weui-uploader__input-box">
+                <view class="weui-uploader__input" bindtap="chooseImage"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+    <view class="weui-cells">
+
+
+    </view>
+
+    <view class="weui-cells">
+      <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+          <view class="weui-label">地点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
+            <view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">时间</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker mode="time" value="{{time}}" bindchange="bindTimeChange">
+            <view class="weui-input">{{time}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
   </view>
-  
-  <view class='timeTip'>
-    <text class="timeTipLeft">发生时间</text>
-    <text class="timeTipRight">{{time}}</text>
+
+  <view class="weui-btn-area">
+    <button type="primary" bindtap="upload" disabled="{{disabled}}">上传</button>
   </view>
-  <view class='locationTip' bindtap="bindChooseLocation">
-    <text class='locationTipLeft'>所在位置</text>
-    <text class='locationTipRight'>{{location}}</text>
-  </view>
-  <view class='booter'>
-    <button class="uploadImage" bindtap="bindUpload"> 确认上传</button>
-  </view>
+
 </view>
