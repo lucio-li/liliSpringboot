@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv= "Pragma"   content= "no-cache" /> 
+    <meta http-equiv= "Cache-Control"   content= "no-cache" /> 
+    <meta http-equiv= "Expires"   content= "0" /> 
+    <script src="../jquery-1.8.0.min.js"></script>
+
+
+    <title>测试</title>
+
+
+
+</head>
+<body >
+
+    <button id="btn1">同步请求</button>
+    <button id="btn2">异步请求</button>
+    <button id="btn3">alert</button>
+    <button id="btn4">btn3</button>
+    <script>
+        $(function () {
+            $("#btn1").click(function () {
+                $.ajax({
+                    url: "/server/test/value?name=1",
+                    type: "get",
+                    async: false,
+                    success: function (data) {
+                        alert("同步请求结束" + data)
+                    },
+                    error: function (res) {
+                        console.log("请求失败")
+                    }
+
+
+                })
+            })
+            $("#btn2").click(function () {
+                $.ajax({
+                    url: "/server/test/value?name=A",
+                    type: "get",
+                    success: function (moneyA) {
+                        getB(moneyA);
+                    },
+                    error: function (res) {
+                        console.log("请求失败")
+                    }
+                })
+            })
+            function getMoney(name) {
+                return new Promise(function(resolve, reject) {
+                    $.ajax({
+                        url: "/server/test/getMoney?name=" + name,
+                        type: "get",
+                        success: function (data) {
+                            resolve(data);
+                        },
+                        error: function (res) {
+                            reject(res)
+                        }
+                    })
+                })
+            }
+            var p1 = getMoney("A");
+            var p2 = getMoney("B");
+            var p3 = getMoney("C");
+            Promise.all([p1, p2, p3]).then(function(result){
+                    console.log(result)
+            }).catch(function(error){
+                    console.log(error)
+            })
+
+
+
+
+            $("#btn3").click(function () {
+                alert("btn3")
+            })
+            $("#btn4").click(function () {
+                alert("btn4")
+            })
+        })
+    </script>
+</body>
+</html>

@@ -507,4 +507,8 @@ video {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.emojiBtn {
+  width: 30px;
+  height: 30px;
+}
 

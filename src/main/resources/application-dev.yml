@@ -8,6 +8,13 @@ spring:
         driver-class-name: com.mysql.jdbc.Driver
     application:
         name: lili-server
+    thymeleaf:
+            cache: false
+            prefix: classpath:/template/
+            suffix: .html
+            encoding: UTF-8
+            content-type: text/html
+            mode: LEGACYHTML5
 #    cloud:
 #        zookeeper:
 #            connect-string: localhost:2181

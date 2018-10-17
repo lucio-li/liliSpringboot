@@ -6,45 +6,32 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="输入照片描述（选填" style="height: 5.3em" bindinput="bindTextAreaBlur" />
-          <view class="weui-textarea-counter">0/300</view>
+          <textarea class="weui-textarea" placeholder="输入照片描述（选填" style="height: 5.3em" bindinput="bindTextAreaBlur" value='{{content}}'></textarea>
+
+          <view class="weui-textarea-counter">
+            <image class="emojiBtn" catchtap="emojiShowHide" src="{{basepath}}emojis/13.gif"></image>{{content.length}}/300</view>
+
         </view>
+
+
       </view>
     </view>
+
     <view class="weui-cells">
       <view class="weui-cell">
         <view class="weui-cell__bd">
           <view class="weui-uploader">
             <view class="weui-uploader__hd">
               <view class="weui-uploader__title">图片上传</view>
-              <view class="weui-uploader__info">0/2</view>
+              <view class="weui-uploader__info">{{images.length}}/9</view>
             </view>
             <view class="weui-uploader__bd">
               <view class="weui-uploader__files" id="uploaderFiles">
-                <block wx:for="{{files}}" wx:key="*this">
+                <block wx:for="{{images}}" wx:key="*this">
                   <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
-                    <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                    <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" bindlongpress="deleteImg" data-item="{{item}}" />
                   </view>
                 </block>
-                <view class="weui-uploader__file">
-                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
-                </view>
-                <view class="weui-uploader__file">
-                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
-                </view>
-                <view class="weui-uploader__file">
-                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
-                </view>
-                <view class="weui-uploader__file weui-uploader__file_status">
-                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
-                  <view class="weui-uploader__file-content">
-                    <icon type="warn" size="23" color="#F43530"></icon>
-                  </view>
-                </view>
-                <view class="weui-uploader__file weui-uploader__file_status">
-                  <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
-                  <view class="weui-uploader__file-content">50%</view>
-                </view>
               </view>
               <view class="weui-uploader__input-box">
                 <view class="weui-uploader__input" bindtap="chooseImage"></view>
@@ -66,9 +53,7 @@
           <view class="weui-label">地点</view>
         </view>
         <view class="weui-cell__bd">
-          <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
-            <view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
-          </picker>
+          <view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -88,4 +73,20 @@
     <button type="primary" bindtap="upload" disabled="{{disabled}}">上传</button>
   </view>
 
+</view>
+
+<!--评论盒子-->
+<view class="cf-bg" catchtap="cemojiCfBg" style="display:{{cfBg ? 'block' : 'none'}}"></view>
+<view class="comment-fixed">
+
+  <!--emoji表情盒子-->
+  <view class="emoji-box {{isShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isLoad ? 'no-emoji-move' : ''}}">
+    <scroll-view scroll-y="true" bindscroll="emojiScroll" style="height:200px">
+      <block wx:for="{{emojis}}" wx:for-item="emoji" wx:key="">
+        <view class="emoji-cell">
+          <image class="touch-active" catchtap="emojiChoose" src="{{basepath}}emojis/{{emoji}}.gif" data-emoji="{{emoji}}"></image>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
 </view>

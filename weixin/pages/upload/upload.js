@@ -1,16 +1,15 @@
 var app = getApp()
 var basepath = app.globalData.basepath;
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     time: "",
     location: "",
     hasImages:false,
     images: [],
-    content: ""
+    content: "",
+    basepath: app.globalData.basepath,
+    emojis: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116", "117", "118", "119", "120", "121", "122", "123", "124", "125", "126", "127", "128", "129", "130", "131", "132", "133", "134"],
+    files: []
   },
 
   /**
@@ -90,7 +89,7 @@ Page({
   /**
    * 页面上点击选择图片事件的处理函数
    */
-  bindChooseImages: function () {
+  chooseImage: function () {
     var that = this;
     wx.chooseImage({
       count: 9, // 默认9
@@ -202,5 +201,49 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+  //点击表情显示隐藏表情盒子
+  emojiShowHide: function () {
+    this.setData({
+      isShow: !this.data.isShow,
+      isLoad: false,
+      cfBg: !this.data.false
+    })
+  },
+  //表情选择
+  emojiChoose: function (e) {
+    console.log(e.currentTarget.dataset.emoji)
+    //当前输入内容和表情合并
+    this.setData({
+      content: this.data.content + "[" + e.currentTarget.dataset.emoji + "]"
+    })
+  },
+  //点击emoji背景遮罩隐藏emoji盒子
+  cemojiCfBg: function () {
+    this.setData({
+      isShow: false,
+      cfBg: false
+    })
+  },
+  //长按删除图片
+  deleteImg: function(e) {
+    var item = e.currentTarget.dataset.item;
+    var that = this;
+    wx.showModal({
+      title: '提示',
+      content: '是否删除该照片',
+      success: function(res) {
+        if (res.confirm) {
+          var images = that.data.images;
+          var index = images.indexOf(item);
+          if (index > -1) {
+            images.splice(index, 1);
+            that.setData({
+              images: images
+            })
+          } 
+        }
+      }
+    })
   }
 })
