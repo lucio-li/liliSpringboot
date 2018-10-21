@@ -1,9 +1,7 @@
 package com.lili.entity.vo;
 
-import com.lili.entity.moments.Comments;
 import lombok.Data;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -20,7 +18,7 @@ public class MomentsVo {
     /**
      * 创建时间
      */
-    private Timestamp createTime;
+    private String createTime;
 
     /**
      * 内容详情
@@ -38,6 +36,8 @@ public class MomentsVo {
     private String headImg;
 
 
+
+
     /**
      * 附件图片列表
      */
@@ -45,5 +45,7 @@ public class MomentsVo {
     /**
      * 评论列表
      */
-    private List<Comments> commentsList;
+    private List<CommentsVo> commentsList;
+
+
 }

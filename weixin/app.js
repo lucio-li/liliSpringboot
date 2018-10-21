@@ -110,7 +110,7 @@ App({
     curCity: '',
     is_login: false,
     //basepath: "https://lq555.cn/lili/",//服务器地址
-    basepath: "http://127.0.0.1:8777/",
+    basepath: "http://192.168.1.9:8777/",
     mapKey: 'L44BZ-HBMKF-UK3J3-NDARG-GNNTO-3DFKK', //腾讯地图api用到的秘钥key
     sessionId: null //当前会话的sessionId，主要用于验证码
   },

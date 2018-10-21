@@ -68,9 +68,8 @@ public class UploadController {
                 // 文件保存路径
                 String filePath = directory + "/" + file.getOriginalFilename();
                 // 转存文件
-//                String filePath = "E:/" + file.getOriginalFilename();
+
                 file.transferTo(new File(filePath));
-                System.out.println("文件名" + filePath);
 //                ResponseUtils.renderJson(response, "{\"success\": \" " + filePath + "\"}");
             } catch (Exception e) {
                 e.printStackTrace();

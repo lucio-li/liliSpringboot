@@ -28,7 +28,7 @@
             <view class="weui-uploader__bd">
               <view class="weui-uploader__files" id="uploaderFiles">
                 <block wx:for="{{images}}" wx:key="*this">
-                  <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+                  <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-index="{{index}}">
                     <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" bindlongpress="deleteImg" data-item="{{item}}" />
                   </view>
                 </block>
@@ -52,8 +52,8 @@
         <view class="weui-cell__hd weui-cell__hd_in-select-after">
           <view class="weui-label">地点</view>
         </view>
-        <view class="weui-cell__bd">
-          <view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
+        <view class="weui-cell__bd" catchtap='getLocation'>
+          <view class="weui-select weui-select_in-select-after">{{location}}</view>
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -70,7 +70,7 @@
   </view>
 
   <view class="weui-btn-area">
-    <button type="primary" bindtap="upload" disabled="{{disabled}}">上传</button>
+    <button type="primary" bindtap="bindUpload" disabled="{{disabled}}">上传</button>
   </view>
 
 </view>
@@ -81,7 +81,7 @@
 
   <!--emoji表情盒子-->
   <view class="emoji-box {{isShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isLoad ? 'no-emoji-move' : ''}}">
-    <scroll-view scroll-y="true" bindscroll="emojiScroll" style="height:200px">
+    <scroll-view scroll-y="true" style="height:200px">
       <block wx:for="{{emojis}}" wx:for-item="emoji" wx:key="">
         <view class="emoji-cell">
           <image class="touch-active" catchtap="emojiChoose" src="{{basepath}}emojis/{{emoji}}.gif" data-emoji="{{emoji}}"></image>

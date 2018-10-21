@@ -30,6 +30,7 @@ public class CommentsServiceImpl implements CommentsService {
             String id = UUIDUtil.getUUID();
             comments.setId(id);
             comments.setStatus(1);
+            comments.setUpdateUser(comments.getCreator());
             commentsDao.insertOne(comments);
             serviceResponse = ServiceResponse.createSuccessByData("插入评论成功");
         } catch (Exception e) {

@@ -56,7 +56,7 @@ public class AttachmentServiceImpl implements AttachmentService {
             attachment.setType(fileType);
             attachment.setStatus(1);
             attachmentDao.insert(attachment);
-
+            serviceResponse = ServiceResponse.createSuccessByData(attachment.getId());
 
         } catch (Exception e) {
             e.printStackTrace();

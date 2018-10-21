@@ -417,12 +417,14 @@ video {
   width: 9.09%;
   height: 33px;
   display: inline-block;
+  margin-left: 10px;
 }
 
 .emoji-cell image {
-  width: 23px;
-  height: 23px;
+  width: 33px;
+  height: 33px;
   padding: 5px;
+  margin-right: 10px;
   border-radius: 3px;
 }
 
@@ -511,4 +513,102 @@ video {
   width: 30px;
   height: 30px;
 }
+.c-bottom {
+    
+    justify-content: space-between;
+    position: relative;
+    padding-top: 10px;
+    padding-bottom:15px;
 
+}
+.c-bottom::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -15px;
+    right: -15px;
+    height: 1px;
+    background-color: #dadada;
+    transform: scaleY(.3)
+}
+
+
+.user {
+    display: flex;
+    align-items: center;
+}
+.u-box {
+    display: flex;
+    flex-direction: column;
+}
+.u-img {
+    width:20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 8px
+}
+.u-name {
+    font-size: 12px;
+    color:#888;
+}
+.u-time {
+    font-size: 10px;
+    color:#888;
+}
+.r-icon-like {
+    color:#be181b;
+}
+.r-icon-comment {
+    color:#2856b6;
+}
+.iconfont {
+    margin-left: 15px;
+    font-size: 20px;
+    right: 0;
+
+}
+.iconfont text {
+    color:#888;
+    margin-left: 3px
+}
+.right {
+  width: 30%;
+  float: right;
+  margin-right: 0px;
+}
+image {
+  border: none !important;
+}
+.weui-grids {
+  border: none;
+}
+.deleteBtn {
+  width: 60px;
+  height: 60px;
+}
+.imgItem {
+  width: 25px;
+  height: 25px;
+}
+.contentView {
+  float: left;
+}
+.contentView image {
+  float: left;
+  margin: 0 2px;
+}
+.contentView text {
+  float: left;
+}
+.org{
+  float: left;
+}
+.imgItemC {
+  width: 20px;
+  height: 20px;
+}
+
+.pl-p {
+  display: inline-block;
+  width: 100%;
+}

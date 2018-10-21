@@ -2,37 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lili.dao.moments.MomentsDao">
     <resultMap id="BaseResultMap" type="com.lili.entity.vo.MomentsVo">
-        <result column="id" jdbcType="VARCHAR" property="id" />
-        <result column="content" jdbcType="VARCHAR" property="content" />
-        <result column="location" jdbcType="VARCHAR" property="location" />
-        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="headImg" jdbcType="VARCHAR" property="headImg" />
-        <collection property="commentsList" ofType="com.lili.entity.moments.Comments">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="headImg" jdbcType="VARCHAR" property="headImg"/>
+        <collection property="commentsList" ofType="com.lili.entity.vo.CommentsVo">
             <result column="commentsId" jdbcType="VARCHAR" property="id"/>
             <result column="contentDetail" jdbcType="VARCHAR" property="contentDetail"/>
             <result column="commentCreator" jdbcType="VARCHAR" property="creator"/>
             <result column="aimUser" jdbcType="VARCHAR" property="aimUser"/>
         </collection>
         <collection property="attachmentList" ofType="String" column="attachmentId">
-            <result column="attachmentId" jdbcType="VARCHAR" />
+            <result column="attachmentId" jdbcType="VARCHAR"/>
         </collection>
 
     </resultMap>
 
-    <select id="queryAll"  resultMap="BaseResultMap">
-        select moments.id, moments.content, moments.location, moments.creator,moments.create_time as createTime,
-        user.headImg, comments.id as commentsId, comments.content as contentDetail,comments.creator as commentCreator,
-        comments.aim_user as aimUser, attachment.id as attachmentId
-        from
-        moments left join comments
-        ON moments.id = comments.moments_id and comments.status = 1
-        left join attachment on attachment.moments_id = moments.id and  attachment.status = 1
-        left join user on user.openid = moments.creator
-        where moments.status = 1
-        order by moments.create_time desc,
-        attachment.create_time asc
-    </select>
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="com.lili.core.PageForm">
+        SELECT momentTmp.id,momentTmp.content,momentTmp.location,momentTmp.creator,
+	    momentTmp.create_time AS createTime,
+	    USER .headImg, comments.id AS commentsId,comments.content AS contentDetail,
+	    userComment.name AS commentCreator,comments.aim_user AS aimUser,
+	    attachment.id AS attachmentId
+        FROM
+            (select * from moments where moments.STATUS = 1  ORDER BY
+            moments.create_time DESC limit #{currentPage},#{pageSize}) momentTmp
+        LEFT JOIN comments ON momentTmp.id = comments.moments_id
+        left JOIN USER userComment on  userComment.openid = comments.creator
+        AND comments. STATUS = 1
+        LEFT JOIN attachment ON attachment.moments_id = momentTmp.id
+        AND attachment. STATUS = 1
+        LEFT JOIN USER ON USER .openid = momentTmp.creator
+	    ORDER BY attachment.create_time ASC
 
+    </select>
 
 
     <select id="queryOne" parameterType="string" resultMap="BaseResultMap">
@@ -45,4 +49,7 @@
     <delete id="deleteOne" parameterType="java.lang.String">
         DELETE FROM moments WHERE time = #{time}
     </delete>
+    <select id="selectCount" resultType="int">
+        select count(id) from moments
+    </select>
 </mapper>

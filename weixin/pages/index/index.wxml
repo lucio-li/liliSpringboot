@@ -1,5 +1,8 @@
 <!--index.wxml-->
-<view class="page">
+<view>
+{{test}}
+</view>
+<view class="page" bindtap='hideEmoji'>
   <image class="userImageBackground" src="../../image/lover.jpg" />
   <view class="page__hd">
     <view class="weui-search-bar">
@@ -20,35 +23,56 @@
     </view>
 
     <!-- 照片begin--->
-    <view class='weui-cells paddingT' wx:for="{{[1,2]}}">
+    <view class='weui-cells paddingT' wx:for="{{moments}}" wx:key="momentsItem">
       <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
         <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="../../image/lover.jpg" />
+          <image class="weui-media-box__thumb" src="{{item.headImg}}" />
           <view class="weui-media-box__desc"></view>
         </view>
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">2018-19-10 12:32:21</view>
-        </view>
+          <view class="weui-media-box__title">{{item.createTime}}</view>
+          <view class="weui-media-box__title">{{item.location}}</view>
 
+        </view>
+        
+        <image src="../../image/deleteMoment.jpg" class="weui-media-box__title deleteBtn" mode="aspectFill"/>
+       
       </navigator>
       <view class="weui-media-box weui-media-box_appmsg">
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
+          
+          <view wx:for="{{item.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" class='contentView'>
+            <text>{{contentItem}}</text>
+            <image class="imgItem" src="{{basepath}}emojis/{{item.imgList[contentIndex]}}.gif" wx:if="{{contentIndex < item.imgList.length}}"></image>
+          </view>
         </view>
       </view>
 
-      <view class="weui-grids">
-        <block wx:for="{{grids}}" wx:key="*this">
+      <view class="weui-grids" wx:if="{{item.attachmentList && item.attachmentList.length > 0}}">
+        <block wx:for="{{item.attachmentList}}" wx:key="attachmentItem" wx:for-item="attachmentItem" wx:for-index="{{attachmentInedx}}">
 
-          <image class="weui-grid img" src="../../image/lover.jpg" mode="aspectFill" />
+          <image class="weui-grid img" src="{{basepath}}/moments/attach?attachId={{attachmentItem}}" mode="aspectFill" catchtap='previewImage' data-index="{{attachmentInedx}}" data-images="{{item.attachmentList}}"/>
         </block>
+      </view>
+      <view class="c-bottom">
+
+        <view class="right">
+          <!-- <text class="iconfont icon-liulan1 r-icon-browse"> {{v.browse}}</text> -->
+          <text class="iconfont icon-xihuan r-icon-like"> {{v.like}}</text>
+          <text class="iconfont icon-pinglun1 r-icon-comment" catchtap='clickComment' data-id="{{item.id}}"> {{v.comment}}</text>
+        </view>
       </view>
       <!-- 照片end-->
       <!-- 评论begin-->
-      <view class="pl-other" wx:if="1">
-        <view class="pl-p" wx:for="[1,2]" wx:key="sub_reply" wx:for-item="subReplyItem" wx:if="{{index < 3 || replyItem.subReplyHidden==false}}" bindtap='clickReply' data-parentid="{{subReplyItem.id}}" data-aim_user_name="{{subReplyItem.create_sync_name}}">
-          <text class="org">wo</text>
-          <text wx:if="{{subReplyItem.reply_id != subReplyItem.parent_id}}">回复<text class="org">ta</text></text>：dfas
+      <view class="pl-other" >
+        <view class="pl-p" wx:for="{{item.commentsList}}" wx:for-key="commentsItem" wx:for-item="commentsItem">
+          <text class="org">{{commentsItem.creator}}</text>
+          <text wx:if="{{commentsItem.creator != commentsItem.aimUser && commentsItem.aimUser != null}}">回复<text class="org">{{commentsItem.aimUser}}: </text></text>
+          <text wx:else class="org">: </text>
+            <view wx:for="{{[1,2]}}" wx:for-item="contentItem" wx:for-index="contentIndex" class='contentView'>
+              <text>asdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdas{{contentItem}}</text>
+              <image class="imgItemC" src="{{basepath}}emojis/12.gif" ></image>
+            </view>
         </view>
       </view>
       <!-- 评论end-->
@@ -67,23 +91,25 @@
 </view>
 
 <!--评论盒子-->
-  <view class="cf-bg" catchtap="cemojiCfBg" style="display:{{cfBg ? 'block' : 'none'}}"></view>
-  <view class="comment-fixed">
-    <view class="cf-box">
-      
-      <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="我要评论" />
-      <view class="emoji iconfont emojiBtn" catchtap="emojiShowHide"><image class="emojiBtn" catchtap="emojiShowHide" src="{{basepath}}emojis/13.gif" ></image></view>
-      <text class="cf-send touch-active" bindtap="send">发送</text>
-    </view>
+<view class="cf-bg" catchtap="cemojiCfBg" style="display:{{cfBg ? 'block' : 'none'}}"></view>
+<view class="comment-fixed" wx:if="{{commentShow}}">
+  <view class="cf-box">
 
-    <!--emoji表情盒子-->
-    <view class="emoji-box {{isShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isLoad ? 'no-emoji-move' : ''}}">
-      <scroll-view scroll-y="true" bindscroll="emojiScroll" style="height:200px">
-        <block wx:for="{{emojis}}" wx:for-item="emoji" wx:key="">
-          <view class="emoji-cell">
-            <image class="touch-active" catchtap="emojiChoose" src="{{basepath}}emojis/{{emoji}}.gif" ></image>
-          </view>
-        </block>
-      </scroll-view>
+    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="我要评论" />
+    <view class="emoji iconfont emojiBtn" catchtap="emojiShowHide">
+      <image class="emojiBtn" catchtap="emojiShowHide" src="{{basepath}}emojis/13.gif"></image>
     </view>
+    <text class="cf-send touch-active" bindtap="sendComment">发送</text>
   </view>
+
+  <!--emoji表情盒子-->
+  <view class="emoji-box {{isShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isLoad ? 'no-emoji-move' : ''}}">
+    <scroll-view scroll-y="true" bindscroll="emojiScroll" style="height:200px">
+      <block wx:for="{{emojis}}" wx:for-item="emoji" wx:key="">
+        <view class="emoji-cell">
+          <image class="touch-active" catchtap="emojiChoose" src="{{basepath}}emojis/{{emoji}}.gif" data-emoji="{{emoji}}"></image>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>

@@ -1,6 +1,8 @@
 package com.lili.controller.moments;
 
 import com.lili.common.dto.ServiceResponse;
+import com.lili.core.Page;
+import com.lili.core.PageForm;
 import com.lili.entity.moments.Attachment;
 import com.lili.entity.moments.Moments;
 import com.lili.service.AttachmentService;
@@ -39,8 +41,8 @@ public class MomentsController {
      * @return
      */
     @RequestMapping("list")
-    public ServiceResponse list() {
-        return momentsService.queryAll();
+    public Page list(PageForm pageForm) {
+        return momentsService.queryAll(pageForm);
     }
 
     /**

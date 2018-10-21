@@ -1,10 +1,11 @@
 var app = getApp()
 var basepath = app.globalData.basepath;
+var util = require("../../utils/util.js")
 Page({
   data: {
     time: "",
     location: "",
-    hasImages:false,
+    hasImages: false,
     images: [],
     content: "",
     basepath: app.globalData.basepath,
@@ -15,118 +16,112 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    var nowTime = new Date();
-    var m = nowTime.getMonth() + 1;
-    var d = nowTime.getDate();
-    var h = nowTime.getHours();
-    var minutes = nowTime.getMinutes();
-    var s = nowTime.getSeconds();
-    if (m < 10) {
-      m = "0" + m;
-    }
-    if (d < 10) {
-      d ="0" + d;
-    }
-    if (h < 10) {
-      h = "0" + h;
-    }
-    if (minutes < 10) {
-      minutes = "0" + minutes;
-    }
-    if (s < 10) {
-      s = "0" + s;
-    }
-    var t = nowTime.getFullYear() + "-" + m + "-"
-      + d + " " + h + ":"
-      + minutes + ":" + s;
+  onLoad: function(options) {
+    var t = util.getNow();
     this.setData({
       time: t
+    });
+    var that = this;
+    wx.getStorage({
+      key: 'openid',
+      success: function(res) {
+        that.setData({
+          openid: res.data
+        })
+      },
+      fail: function() {
+        wx.showModal({
+          title: '提示',
+          content: '宝宝先去允许授权',
+        })
+      }
     })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-  
+  onReady: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     console.log("页面显示")
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-  
+  onHide: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-  
+  onUnload: function() {
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     console.log("qqq")
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-  
+  onReachBottom: function() {
+
   },
   /**
    * 页面上点击选择图片事件的处理函数
    */
-  chooseImage: function () {
+  chooseImage: function() {
     var that = this;
     wx.chooseImage({
       count: 9, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success: function (res) {
+      success: function(res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         var tempFilePaths = res.tempFilePaths
         var dataFilePaths = that.data.images;
-        tempFilePaths.forEach(function (imageUrl) {
-          
+        tempFilePaths.forEach(function(imageUrl) {
+
           dataFilePaths.push(imageUrl);
         })
-        
+
         that.setData({
           images: dataFilePaths
         })
       }
     })
   },
-  clickImage: function (e) {
+  /**
+   * 图片预览
+   */
+  previewImage: function(e) {
     var that = this;
     var index = e.currentTarget.dataset.index;
     var pictures = this.data.images;
-    console.log(pictures[index])
     wx.previewImage({
       current: pictures[index],
       urls: pictures,
-      fail: function () {
-        
+      fail: function() {
+
       },
-      complete: function () {
-        
+      complete: function() {
+
       },
     })
   },
-  deleteImageTap: function (e) {
+  deleteImageTap: function(e) {
     var index = e.currentTarget.dataset.index;
     var pictures = this.data.images;
     pictures.splice(index, 1);
@@ -134,61 +129,99 @@ Page({
       images: pictures
     })
   },
-  bindChooseLocation: function () {
+  bindChooseLocation: function() {
     var that = this;
     wx.chooseLocation({
-      success: function (res) {
+      success: function(res) {
         that.setData({
           location: res.name
         })
       }
     })
-    
+
   },
   bindTextAreaBlur: function(e) {
     this.setData({
       content: e.detail.value
     })
   },
-  bindUpload: function () {
-    var that = this;
-    wx.navigateTo({
-      url: '../index/index'
-    })
+  /**
+   * 上传动态的内容
+   */
+  bindUpload: function() {
+    if (!this.data.content) {
+      wx.showToast({
+        title: '照片描述不能为空',
+      })
+      return;
+    }
     var that = this;
     var options = {
-      avatarUrl: app.globalData.userInfo.avatarUrl,
+      content: that.data.content,
       time: that.data.time,
       location: that.data.location,
-      content: that.data.content
+      creator: that.data.openid
     };
     var opp = {};
-    opp.url = "upload/content";
+    opp.url = "moments/add";
+    opp.method = "post"
     opp.data = options;
-    opp.header = { "Content-Type": "application/json" };
-    app.networkRequest(opp, function (res) {
-      that.data.images.forEach(function (imageUrl) {
-        that.uploadAllImage(res.data.directory, imageUrl);
-      });
+    opp.header = {
+      "Content-Type": "application/json"
+    };
+    app.networkRequest(opp, function(res) {
+      if (res.data.code == 0) {
+        that.data.images.forEach(function (imageUrl) {
+          that.uploadAllImage(res.data.data, imageUrl);
+        });
+        that.setData({
+          location: "",
+          content: "",
+          images: []
+        })
+        wx.showModal({
+          title: '提示',
+          content: '上传成功',
+          showCancel: false,
+          success: function() {
+            wx.switchTab({
+              url: '../index/index',
+            })
+          }
+        })
+        
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '上传失败，是否重新上传',
+          success: function(res) {
+            if (res.confirm) {
+              that.bindUpload();
+            }
+          }
+        })
+      }
+      
     })
-    
+
   },
   /**
    * 上传照片的函数
    */
-  uploadAllImage: function (directory, imageUrl) {
+  uploadAllImage: function(momentsId, imageUrl) {
     var that = this;
-    
+
     wx.uploadFile({
-      url: basepath + '/upload/image', 
+      url: basepath + '/moments/upload',
       filePath: imageUrl,
       name: 'file',
       formData: {
-        'directory': directory
+        'momentsId': momentsId
       },
-      success: function (res) {
-        var data = res.data
-        console.log("上传照片成功" + res.data)
+      success: function(res) {
+        if (res.data.code != 0) {
+          console.log("上传文件失败");
+        }
       },
       fail: function(e) {
         console.log("上传初次失败")
@@ -199,11 +232,11 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-  
+  onShareAppMessage: function() {
+
   },
   //点击表情显示隐藏表情盒子
-  emojiShowHide: function () {
+  emojiShowHide: function() {
     this.setData({
       isShow: !this.data.isShow,
       isLoad: false,
@@ -211,7 +244,7 @@ Page({
     })
   },
   //表情选择
-  emojiChoose: function (e) {
+  emojiChoose: function(e) {
     console.log(e.currentTarget.dataset.emoji)
     //当前输入内容和表情合并
     this.setData({
@@ -219,7 +252,7 @@ Page({
     })
   },
   //点击emoji背景遮罩隐藏emoji盒子
-  cemojiCfBg: function () {
+  cemojiCfBg: function() {
     this.setData({
       isShow: false,
       cfBg: false
@@ -241,8 +274,25 @@ Page({
             that.setData({
               images: images
             })
-          } 
+          }
         }
+      }
+    })
+  },
+  /**
+   * 获取当前位置
+   */
+  getLocation: function() {
+    var that = this;
+    wx.chooseLocation({
+      success: function(res) {
+
+        that.setData({
+          location: res.name
+        })
+      },
+      error: function(res) {
+        console.log("获取位置失败" + res)
       }
     })
   }

@@ -3,6 +3,8 @@ package com.lili.service.impl;
 
 import com.lili.common.dto.ServiceResponse;
 import com.lili.common.util.UUIDUtil;
+import com.lili.core.Page;
+import com.lili.core.PageForm;
 import com.lili.dao.moments.MomentsDao;
 import com.lili.dao.moments.UserDao;
 import com.lili.entity.moments.Moments;
@@ -11,7 +13,6 @@ import com.lili.service.MomentsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,53 +24,25 @@ import java.util.List;
 public class MomentsServiceImpl implements MomentsService {
     @Autowired
     private MomentsDao momentsDao;
-    @Autowired
-    private UserDao userDao;
-
     private static final Logger logger = LoggerFactory.getLogger(MomentsServiceImpl.class);
-    public ServiceResponse queryAll()  {
-        ServiceResponse serviceResponse = ServiceResponse.createError();
+    public Page queryAll(PageForm pageForm)  {
+        Page page = new Page();
         try{
-//            MomentsVo momentsVo = new MomentsVo();
-            List<MomentsVo> momentsList = momentsDao.queryAll();
-//            for (int i = 0, len = momentsList.size(); i < len; i++) {
-//                Moments moments = momentsList.get(i);
-//                String directoryPath = moments.getDirectory();
-////                String imageUrl = "https://lq555.cn/images/" + moments.numberDataTime() +"/";//文件夹名字
-//                String imageUrl = this.imgpath + moments.numberDataTime() +"/";//文件夹名字
+            if (pageForm == null) {
+                pageForm = new PageForm();
+            }
 
-//                File directory = new File(directoryPath);
-//                String filename = "";
-//                List<String> imageUrlList = new ArrayList<String>();
-//                if (directory.exists()) {
-//                    File file[] = directory.listFiles();
-//                    for (int j = 0; j < file.length; j++) {
-//                        filename = imageUrl + file[j].getName();
-//                        imageUrlList.add(filename);
-//                    }
-//                }
-//
-//                moments.setImageUrlLlist(imageUrlList);
-//            }
-//            momentsVo.setMomentsList(momentsList);
-//            ObjectMapper mapper = new ObjectMapper();
-//            String momentsJson = mapper.writeValueAsString(momentsList);
-//            if(avatarUrlList.size() == 1) {
-//                avatarUrlList.add(avatarUrlList.get(0));
-//            } else if(avatarUrlList.size() == 0) {
-//                avatarUrlList.add("https://wx.qlogo.cn/mmopen/vi_32/lwy6Y5ybTj1iaJw8ic7l6vXriaHyXOPAlGeknINSOgAG8qAGRSKFJCLicxPAicdMrp3XibKXiapBLHAVKpDeibCRKhDJxA/0");
-//                avatarUrlList.add("https://wx.qlogo.cn/mmopen/vi_32/lwy6Y5ybTj1iaJw8ic7l6vXriaHyXOPAlGeknINSOgAG8qAGRSKFJCLicxPAicdMrp3XibKXiapBLHAVKpDeibCRKhDJxA/0");
-//            }
-//            String avatarUrlListJson = mapper.writeValueAsString(avatarUrlList);
-//            return "{\"momentsList\":" + momentsJson + ",\"avatarUrlList\":" + avatarUrlListJson + "}";
-            serviceResponse = ServiceResponse.createSuccessByData(momentsList);
-
-
+            List<MomentsVo> momentsList = momentsDao.queryAll(pageForm);
+            int count = momentsDao.selectCount();
+            page.setCurrentPage(pageForm.getCurrentPage());
+            page.setPageSize(pageForm.getPageSize());
+            page.setTotalRecordCount(count);
+            page.setDatas(momentsList);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
         }
-        return serviceResponse;
+        return page;
 
     }
 
@@ -92,7 +65,7 @@ public class MomentsServiceImpl implements MomentsService {
             String id = UUIDUtil.getUUID().toString();
             moments.setId(id);
             momentsDao.insertOne(moments);
-            response = ServiceResponse.createSuccessByData("插入更新动态成功");
+            response = ServiceResponse.createSuccessByData(moments.getId());
         } catch (Exception e) {
             logger.error("插入用户失败", e.getMessage());
             response = ServiceResponse.createErrorByData("插入更新动态失败");
