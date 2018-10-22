@@ -42,16 +42,22 @@ public class CommentsServiceImpl implements CommentsService {
 
     }
 
-    public ServiceResponse deleteOne(int id) {
-//        logger.info("测试log");
-//        int a = commentsDao.deleteById(id);
-//        if (a == 0) {
-//            return "fail";//删除失败
-//        } else {
-//            return "success";//删除成功
-//        }
+    /**
+     * 删除一条记录，状态改为0
+     * @param id
+     * @return
+     */
+    @Override
+    public ServiceResponse deleteOne(String id) {
+        ServiceResponse serviceResponse = ServiceResponse.createError();
+        try {
+            commentsDao.deleteById(id);
+            serviceResponse = ServiceResponse.createByCodeMsg(0, "删除成功");
+        } catch (Exception e){
+            logger.error("删除评论失败", e.getMessage());
+        }
 
-        return ServiceResponse.createError();
+        return serviceResponse;
 
     }
 }
