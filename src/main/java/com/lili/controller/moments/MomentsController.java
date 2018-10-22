@@ -48,15 +48,9 @@ public class MomentsController {
     /**
      * 删除一条动态
      */
-    @RequestMapping("deleteOne")
-    public String deleteOne(HttpServletResponse response, String time) {
-        if (time == null || "".equals(time.trim())) {
-//            ResponseUtils.renderJson(response, "{\"result\": \"fail\"}");
-            return null;
-        }
-        String result = momentsService.deleteOne(time);
-//        ResponseUtils.renderJson(response, "{\"result\": \"" + result + "\"}");
-        return null;
+    @PutMapping("/{id}")
+    public ServiceResponse deleteOne(@PathVariable("id") String id) {
+        return momentsService.deleteOne(id);
     }
 
     /**

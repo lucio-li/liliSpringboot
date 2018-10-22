@@ -16,6 +16,6 @@
         values(#{id}, NOW(), #{creator}, #{contentDetail}, #{aimUser}, #{momentsId},  NOW(), #{creator}, #{status})
     </insert>
     <delete id="deleteById" parameterType="java.lang.String">
-        DELETE FROM comments WHERE create_time = #{id}
+        UPDATE comments SET status = 0 WHERE id = #{id}
     </delete>
 </mapper>

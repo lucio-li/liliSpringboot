@@ -25,6 +25,13 @@ public class MomentsServiceImpl implements MomentsService {
     @Autowired
     private MomentsDao momentsDao;
     private static final Logger logger = LoggerFactory.getLogger(MomentsServiceImpl.class);
+
+    /**
+     * 查询全部的动态
+     * @param pageForm
+     * @return
+     */
+    @Override
     public Page queryAll(PageForm pageForm)  {
         Page page = new Page();
         try{
@@ -46,16 +53,21 @@ public class MomentsServiceImpl implements MomentsService {
 
     }
 
-    public String deleteOne(String time) {
-        logger.info("测试log");
-        int a = momentsDao.deleteOne(time);
-        if (a == 0) {
-            return "fail";//删除失败
-        } else {
-            return "success";//删除成功
+    /**
+     * 删除动态
+     * @param id
+     * @return
+     */
+    @Override
+    public ServiceResponse deleteOne(String id) {
+        ServiceResponse serviceResponse = ServiceResponse.createError();
+        try {
+            momentsDao.deleteOne(id);
+            serviceResponse  = ServiceResponse.createByCodeMsg(0, "删除成功");
+        } catch (Exception e) {
+            logger.error("删除动态失败",e.getMessage());
         }
-
-
+        return serviceResponse;
     }
 
     @Override
