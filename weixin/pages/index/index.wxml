@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view>
-{{test}}
+  {{test}}
 </view>
 <view class="page" bindtap='hideEmoji'>
   <image class="userImageBackground" src="../../image/lover.jpg" />
@@ -34,13 +34,13 @@
           <view class="weui-media-box__title">{{item.location}}</view>
 
         </view>
-        
-        <image src="../../image/deleteMoment.jpg" class="weui-media-box__title deleteBtn" mode="aspectFill"/>
-       
+
+        <image src="../../image/deleteMoment.jpg" class="weui-media-box__title deleteBtn" mode="aspectFill" />
+
       </navigator>
       <view class="weui-media-box weui-media-box_appmsg">
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-          
+
           <view wx:for="{{item.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" class='contentView'>
             <text>{{contentItem}}</text>
             <image class="imgItem" src="{{basepath}}emojis/{{item.imgList[contentIndex]}}.gif" wx:if="{{contentIndex < item.imgList.length}}"></image>
@@ -51,7 +51,7 @@
       <view class="weui-grids" wx:if="{{item.attachmentList && item.attachmentList.length > 0}}">
         <block wx:for="{{item.attachmentList}}" wx:key="attachmentItem" wx:for-item="attachmentItem" wx:for-index="{{attachmentInedx}}">
 
-          <image class="weui-grid img" src="{{basepath}}/moments/attach?attachId={{attachmentItem}}" mode="aspectFill" catchtap='previewImage' data-index="{{attachmentInedx}}" data-images="{{item.attachmentList}}"/>
+          <image class="weui-grid img" src="{{basepath}}/moments/attach?attachId={{attachmentItem}}" mode="aspectFill" catchtap='previewImage' data-index="{{attachmentInedx}}" data-images="{{item.attachmentList}}" />
         </block>
       </view>
       <view class="c-bottom">
@@ -64,15 +64,12 @@
       </view>
       <!-- 照片end-->
       <!-- 评论begin-->
-      <view class="pl-other" >
+      <view class="pl-other">
         <view class="pl-p" wx:for="{{item.commentsList}}" wx:for-key="commentsItem" wx:for-item="commentsItem">
           <text class="org">{{commentsItem.creator}}</text>
           <text wx:if="{{commentsItem.creator != commentsItem.aimUser && commentsItem.aimUser != null}}">回复<text class="org">{{commentsItem.aimUser}}: </text></text>
           <text wx:else class="org">: </text>
-            <view wx:for="{{[1,2]}}" wx:for-item="contentItem" wx:for-index="contentIndex" class='contentView'>
-              <text>asdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdas{{contentItem}}</text>
-              <image class="imgItemC" src="{{basepath}}emojis/12.gif" ></image>
-            </view>
+          asfdsa舞😃 😃 😏 你好，很好，舞😃 😃 😏 你好，很好，起步额你我央视影音😁 😍 😜 😏 😍 😝 😍舞😃 😃 😏 你好，很好，起步额你我央视影音😁 😍 😜 😏 😍 😝 😍起步额你我央视影音😁 😍 😜 😏 😍 😝 😍
         </view>
       </view>
       <!-- 评论end-->

@@ -1,15 +1,15 @@
 var app = getApp()
 var basepath = app.globalData.basepath;
-var util = require("../../utils/util.js")
+var util = require("../../utils/util.js");
+var emojiChar = "😋-😌-😍-😏-😜-😝-😞-😔-😪-😭-😁-😂-😃-😅-😆-👿-😒-😓-😔-😏-😖-😘-😚-😒-😡-😢-😣-😤-😢-😨-😳-😵-😷-😸-😻-😼-😽-😾-😿-🙊-🙋-🙏-✈-🚇-🚃-🚌-🍄-🍅-🍆-🍇-🍈-🍉-🍑-🍒-🍓-🐔-🐶-🐷-👦-👧-👱-👩-👰-👨-👲-👳-💃-💄-💅-💆-💇-🌹-💑-💓-💘-🚲";
 Page({
   data: {
     time: "",
     location: "",
-    hasImages: false,
     images: [],
     content: "",
     basepath: app.globalData.basepath,
-    emojis: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116", "117", "118", "119", "120", "121", "122", "123", "124", "125", "126", "127", "128", "129", "130", "131", "132", "133", "134"],
+    emojiList: [],
     files: []
   },
 
@@ -36,8 +36,17 @@ Page({
         })
       }
     })
+    this.splitEmoji();
   },
-
+  /**
+   * 切割emoji表情
+   */
+  splitEmoji: function() {
+    var emojiList = emojiChar.split("-");
+    this.setData({
+      emojiList: emojiList
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -171,7 +180,7 @@ Page({
     };
     app.networkRequest(opp, function(res) {
       if (res.data.code == 0) {
-        that.data.images.forEach(function (imageUrl) {
+        that.data.images.forEach(function(imageUrl) {
           that.uploadAllImage(res.data.data, imageUrl);
         });
         that.setData({
@@ -189,7 +198,7 @@ Page({
             })
           }
         })
-        
+
       } else {
         wx.showModal({
           title: '提示',
@@ -201,7 +210,7 @@ Page({
           }
         })
       }
-      
+
     })
 
   },
@@ -245,10 +254,10 @@ Page({
   },
   //表情选择
   emojiChoose: function(e) {
-    console.log(e.currentTarget.dataset.emoji)
+  
     //当前输入内容和表情合并
     this.setData({
-      content: this.data.content + "[" + e.currentTarget.dataset.emoji + "]"
+      content: this.data.content +  e.currentTarget.dataset.emoji
     })
   },
   //点击emoji背景遮罩隐藏emoji盒子

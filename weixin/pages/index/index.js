@@ -122,6 +122,19 @@ Page({
     app.networkRequest(opp, function(res) {
       if (res.data) {
         var moments = res.data.datas;
+        if (!moments) {
+          wx.showModal({
+            title: '提示',
+            content: '无数据',
+            showCancel: false,
+            success: function(res) {
+              if(res.confirm) {
+
+              }
+            }
+          })
+          return;
+        }
         for (var i = 0; i < moments.length; i++) {
           moments[i].createTime = moments[i].createTime.slice(0, moments[i].createTime.indexOf("."));
           var imgList = moments[i].content.match(/\[(\d+)\]/g);

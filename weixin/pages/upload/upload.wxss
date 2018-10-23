@@ -115,17 +115,14 @@ page {
 }
 
 .emoji-cell {
-  width: 9.09%;
+  width: 33px;
   height: 33px;
+  font-size: 28px;
+  margin: 5px;
   display: inline-block;
 }
 
-.emoji-cell image {
-  width: 23px;
-  height: 23px;
-  padding: 5px;
-  border-radius: 3px;
-}
+
 
 .emoji-move-in {
   -webkit-animation: emoji-move-in 0.3s forwards;

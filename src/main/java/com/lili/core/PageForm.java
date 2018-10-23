@@ -12,7 +12,7 @@ import java.io.Serializable;
 public final class PageForm implements Serializable{
     private static final long serialVersionUID = 179887833393695206L;
     //当前页
-    private int currentPage=1;
+    private int currentPage=0;
     //每页数量
     private int pageSize=10;
 

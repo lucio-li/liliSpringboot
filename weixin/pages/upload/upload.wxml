@@ -82,9 +82,10 @@
   <!--emoji表情盒子-->
   <view class="emoji-box {{isShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isLoad ? 'no-emoji-move' : ''}}">
     <scroll-view scroll-y="true" style="height:200px">
-      <block wx:for="{{emojis}}" wx:for-item="emoji" wx:key="">
-        <view class="emoji-cell">
-          <image class="touch-active" catchtap="emojiChoose" src="{{basepath}}emojis/{{emoji}}.gif" data-emoji="{{emoji}}"></image>
+      <block wx:for="{{emojiList}}" wx:for-item="emoji" wx:key="">
+        <view class="emoji-cell" catchtap="emojiChoose" data-emoji="{{emoji}}">
+          <!-- <image class="touch-active" catchtap="emojiChoose" src="{{basepath}}emojis/{{emoji}}.gif" data-emoji="{{emoji}}"></image> -->
+          {{emoji}}
         </view>
       </block>
     </scroll-view>
