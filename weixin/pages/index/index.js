@@ -1,6 +1,7 @@
 var app = getApp();
 var replyObj = {};
 var openid = "";
+var emojiChar = "😋-😌-😍-😏-😜-😝-😞-😔-😪-😭-😁-😂-😃-😅-😆-👿-😒-😓-😔-😏-😖-😘-😚-😒-😡-😢-😣-😤-😢-😨-😳-😵-😷-😸-😻-😼-😽-😾-😿-🙊-🙋-🙏-✈-🚇-🚃-🚌-🍄-🍅-🍆-🍇-🍈-🍉-🍑-🍒-🍓-🐔-🐶-🐷-👦-👧-👱-👩-👰-👨-👲-👳-💃-💄-💅-💆-💇-🌹-💑-💓-💘-🚲";
 Page({
   data: {
     basepath: app.globalData.basepath,
@@ -15,7 +16,8 @@ Page({
     inputVal: "",
     grids: [0, 1, 2, 3, 4, 5, 6, 7, 8],
     authorizeShow: false, //授权窗口是否显示  
-    emojis: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116", "117", "118", "119", "120", "121", "122", "123", "124", "125", "126", "127", "128", "129", "130", "131", "132", "133", "134"], //qq、微信原始表情 
+    emojiList:[],
+    replyPlaceholder: "我要评论"
 
   },
   //事件处理函数,跳转上传照片
@@ -32,6 +34,10 @@ Page({
       success: function(res) {
         openid = res.data
       },
+    })
+    var emojiList = emojiChar.split("-");
+    this.setData({
+      emojiList: emojiList
     })
   },
   /**
@@ -137,15 +143,7 @@ Page({
         }
         for (var i = 0; i < moments.length; i++) {
           moments[i].createTime = moments[i].createTime.slice(0, moments[i].createTime.indexOf("."));
-          var imgList = moments[i].content.match(/\[(\d+)\]/g);
-          if (!imgList) {
-            imgList = [];
-          }
-          for (var j = 0; j < imgList.length; j++) {
-            imgList[j] = imgList[j].replace(/\[*\]*/g, "");
-          }
-          moments[i].imgList = imgList;
-          moments[i].contentList = moments[i].content.split(/\[\d+\]/);
+          
 
         }
         that.setData({
@@ -347,7 +345,7 @@ Page({
   emojiChoose: function(e) {
     //当前输入内容和表情合并
     this.setData({
-      content: this.data.content + "[" + e.currentTarget.dataset.emoji + "]"
+      content: this.data.content +  e.currentTarget.dataset.emoji
     })
   },
   //点击emoji背景遮罩隐藏emoji盒子
@@ -371,6 +369,21 @@ Page({
     })
   },
   /**
+   * 评论别人的评论
+   */
+  replyOther: function (e) {
+    var creator = e.currentTarget.dataset.creator;
+    var id = e.currentTarget.dataset.id;
+    replyObj.aimUser = creator;
+    replyObj.id = id;
+    this.setData({
+      commentShow: true,
+      isLoad: true,
+      content: "",
+      replyPlaceholder: "回复" + creator + ":"
+    })
+  },
+  /**
    *隐藏emoji盒子
    */
   hideEmoji: function() {
@@ -378,5 +391,41 @@ Page({
       commentShow: false
     })
     console.log("隐藏emojis")
+  },
+  /**
+   * 删除评论
+   */
+  deleteReply: function(e) {
+    var id = e.currentTarget.dataset.replyId;
+    var content = e.currentTarget.dataset.content;
+    var that = this;
+    wx.showModal({
+      title: '提示',
+      content: '是否删除评论:' + content,
+      success: function(res) {
+        if (res.confirm) {
+          
+          var opp = {};
+          opp.url = "comments/" + id;
+          opp.method = "PUT";
+          opp.header = {
+            "Content-Type": "application/json"
+          };
+          app.networkRequestHide(opp, function(res) {
+            if (res.data.code == 0) {
+              wx.showModal({
+                title: '提示',
+                content: '删除成功',
+                showCancel: false,
+                success: function(res) {
+                  that.getMomentsList();
+                }
+              })
+            }
+          })
+        } 
+      }
+    })
   }
+  
 })

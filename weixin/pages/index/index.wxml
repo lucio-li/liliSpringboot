@@ -40,11 +40,7 @@
       </navigator>
       <view class="weui-media-box weui-media-box_appmsg">
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-
-          <view wx:for="{{item.contentList}}" wx:for-item="contentItem" wx:for-index="contentIndex" class='contentView'>
-            <text>{{contentItem}}</text>
-            <image class="imgItem" src="{{basepath}}emojis/{{item.imgList[contentIndex]}}.gif" wx:if="{{contentIndex < item.imgList.length}}"></image>
-          </view>
+          {{item.content}}
         </view>
       </view>
 
@@ -64,12 +60,12 @@
       </view>
       <!-- 照片end-->
       <!-- 评论begin-->
-      <view class="pl-other">
-        <view class="pl-p" wx:for="{{item.commentsList}}" wx:for-key="commentsItem" wx:for-item="commentsItem">
+      <view class="pl-other" wx:if="{{item.commentsList && item.commentsList.length > 0}}">
+        <view class="pl-p" wx:for="{{item.commentsList}}" wx:for-key="commentsItem" wx:for-item="commentsItem" catchtap='replyOther' data-creator="{{commentsItem.creator}}" data-id="{{item.id}}" bindlongpress='deleteReply' data-reply-id="{{commentsItem.id}}" data-content="{{commentsItem.contentDetail}}">
           <text class="org">{{commentsItem.creator}}</text>
           <text wx:if="{{commentsItem.creator != commentsItem.aimUser && commentsItem.aimUser != null}}">回复<text class="org">{{commentsItem.aimUser}}: </text></text>
           <text wx:else class="org">: </text>
-          asfdsa舞😃 😃 😏 你好，很好，舞😃 😃 😏 你好，很好，起步额你我央视影音😁 😍 😜 😏 😍 😝 😍舞😃 😃 😏 你好，很好，起步额你我央视影音😁 😍 😜 😏 😍 😝 😍起步额你我央视影音😁 😍 😜 😏 😍 😝 😍
+          {{commentsItem.contentDetail}}
         </view>
       </view>
       <!-- 评论end-->
@@ -92,7 +88,7 @@
 <view class="comment-fixed" wx:if="{{commentShow}}">
   <view class="cf-box">
 
-    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="我要评论" />
+    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="{{replyPlaceholder}}" />
     <view class="emoji iconfont emojiBtn" catchtap="emojiShowHide">
       <image class="emojiBtn" catchtap="emojiShowHide" src="{{basepath}}emojis/13.gif"></image>
     </view>
@@ -102,9 +98,9 @@
   <!--emoji表情盒子-->
   <view class="emoji-box {{isShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isLoad ? 'no-emoji-move' : ''}}">
     <scroll-view scroll-y="true" bindscroll="emojiScroll" style="height:200px">
-      <block wx:for="{{emojis}}" wx:for-item="emoji" wx:key="">
-        <view class="emoji-cell">
-          <image class="touch-active" catchtap="emojiChoose" src="{{basepath}}emojis/{{emoji}}.gif" data-emoji="{{emoji}}"></image>
+      <block wx:for="{{emojiList}}" wx:for-item="emoji" wx:key="">
+        <view class="emoji-cell" catchtap="emojiChoose" data-emoji="{{emoji}}">
+          {{emoji}}
         </view>
       </block>
     </scroll-view>

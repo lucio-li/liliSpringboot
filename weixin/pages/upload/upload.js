@@ -36,7 +36,10 @@ Page({
         })
       }
     })
-    this.splitEmoji();
+    var emojiList = emojiChar.split("-");
+    this.setData({
+      emojiList: emojiList
+    })
   },
   /**
    * 切割emoji表情

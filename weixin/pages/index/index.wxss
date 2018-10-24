@@ -370,8 +370,8 @@ video {
 
 .cf-content {
   background-color: #f2f2f2;
-  padding: 8px 5px;
-  font-size: 12px;
+  padding: 2px 5px 6px 5px;
+  font-size: 16px;
   height: 30px;
   max-height: 40px;
   width: 100%;
@@ -414,11 +414,11 @@ video {
 }
 
 .emoji-cell {
-  width: 15%;
+  width: 33px;
   height: 33px;
   font-size: 28px;
+  margin: 5px;
   display: inline-block;
-  margin-left: 10px;
 }
 
 
@@ -580,24 +580,7 @@ image {
   width: 60px;
   height: 60px;
 }
-.imgItem {
-  width: 25px;
-  height: 25px;
-}
 
-.contentView image {
-  float: left;
-  margin: 0 2px;
-}
-
-.org{
-  float: left;
-}
-.imgItemC {
-  width: 20px;
-  height: 20px;
-  float: left;
-}
 
 .pl-p {
   display: inline-block;

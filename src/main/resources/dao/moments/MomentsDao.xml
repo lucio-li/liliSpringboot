@@ -29,12 +29,12 @@
             (select * from moments where moments.STATUS = 1  ORDER BY
             moments.create_time DESC limit #{currentPage} ,#{pageSize}) momentTmp
         LEFT JOIN comments ON momentTmp.id = comments.moments_id
-        left JOIN USER userComment on  userComment.openid = comments.creator
         AND comments. STATUS = 1
+        left JOIN USER userComment on  userComment.openid = comments.creator
         LEFT JOIN attachment ON attachment.moments_id = momentTmp.id
         AND attachment. STATUS = 1
         LEFT JOIN USER ON USER .openid = momentTmp.creator
-	    ORDER BY momentTmp.create_time DESC, attachment.create_time ASC
+	    ORDER BY momentTmp.create_time DESC, comments.create_time ASC, attachment.create_time ASC
 
     </select>
 

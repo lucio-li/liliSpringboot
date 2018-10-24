@@ -84,7 +84,6 @@
     <scroll-view scroll-y="true" style="height:200px">
       <block wx:for="{{emojiList}}" wx:for-item="emoji" wx:key="">
         <view class="emoji-cell" catchtap="emojiChoose" data-emoji="{{emoji}}">
-          <!-- <image class="touch-active" catchtap="emojiChoose" src="{{basepath}}emojis/{{emoji}}.gif" data-emoji="{{emoji}}"></image> -->
           {{emoji}}
         </view>
       </block>
