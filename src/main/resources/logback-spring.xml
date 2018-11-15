@@ -157,5 +157,5 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="com.esgov.smartform.smartformserver" level="debug"></logger>
+    <logger name="com.lili" level="debug"></logger>
 </configuration>

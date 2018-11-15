@@ -2,6 +2,9 @@ var app = getApp();
 var replyObj = {};
 var openid = "";
 var emojiChar = "😋-😌-😍-😏-😜-😝-😞-😔-😪-😭-😁-😂-😃-😅-😆-👿-😒-😓-😔-😏-😖-😘-😚-😒-😡-😢-😣-😤-😢-😨-😳-😵-😷-😸-😻-😼-😽-😾-😿-🙊-🙋-🙏-✈-🚇-🚃-🚌-🍄-🍅-🍆-🍇-🍈-🍉-🍑-🍒-🍓-🐔-🐶-🐷-👦-👧-👱-👩-👰-👨-👲-👳-💃-💄-💅-💆-💇-🌹-💑-💓-💘-🚲";
+var currentPage = 0;
+var pageSize = 10;
+var hasNext = true;
 Page({
   data: {
     basepath: app.globalData.basepath,
@@ -119,6 +122,8 @@ Page({
   getMomentsList: function() {
     var that = this;
     var options = {};
+    options.currentPage = currentPage;
+    options.pageSize = pageSize;
     var opp = {};
     opp.url = "moments/list";
     opp.data = options;
@@ -181,21 +186,21 @@ Page({
    * 删除动态
    */
   deleteMoment: function(e) {
-    var index = e.currentTarget.dataset.index;
-    var moments = this.data.moments;
+    var id = e.currentTarget.dataset.id;
+    var content = e.currentTarget.dataset.content;
     var that = this;
     wx.showModal({
       title: '提示',
-      content: '确定要删除吗？',
+      content: '确定要删除:' + content,
       success: function(sm) {
         if (sm.confirm) {
           // 用户点击了确定 可以调用删除方法了
 
           var options = {};
-          options.time = moments[index].time;
           var opp = {};
-          opp.url = "moments/deleteOne";
+          opp.url = "moments/" + id;
           opp.data = options;
+          opp.method = "PUT";
           opp.header = {
             "Content-Type": "application/json"
           };
@@ -211,22 +216,6 @@ Page({
         }
       }
     })
-  },
-  /**
-   * 评论动态
-   */
-  clickComment: function(e) {
-    var index = e.currentTarget.dataset.index;
-    var moments = this.data.moments;
-    this.setData({
-      commentHidden: false,
-      focus: true,
-      momentTime: moments[index].time
-    })
-    console.log(this.data.userInfo)
-  },
-  editComment: function() {
-
   },
   /**
    * 评论输入框失去焦点隐藏
@@ -299,7 +288,7 @@ Page({
   /**
    * 评论输入框的改变事件
    */
-  bindTextAreaBlur: function(e) {
+  textAreaBlur: function(e) {
     this.setData({
       contentDetail: e.detail.value
     })
@@ -365,7 +354,8 @@ Page({
     this.setData({
       commentShow: true,
       isLoad: true,
-      content: ""
+      content: "",
+      replyPlaceholder: "我要评论"
     })
   },
   /**

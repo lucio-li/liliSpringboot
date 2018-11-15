@@ -1,11 +1,13 @@
 server:
     port: 8777
+    context-path: /lili
 spring:
     datasource:
-        url: jdbc:mysql://localhost:3306/lili
+        url: jdbc:mysql://localhost:3306/lili?serverTimezone=GMT%2B8
         username: root
         password: 12345678
-        driver-class-name: com.mysql.jdbc.Driver
+        #password: 1qaz@WSX
+        driver-class-name: com.mysql.cj.jdbc.Driver
     application:
         name: lili-server
     thymeleaf:

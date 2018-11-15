@@ -24,7 +24,7 @@
 
     <!-- 照片begin--->
     <view class='weui-cells paddingT' wx:for="{{moments}}" wx:key="momentsItem">
-      <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+      <view url="" class="weui-media-box weui-media-box_appmsg" >
         <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
           <image class="weui-media-box__thumb" src="{{item.headImg}}" />
           <view class="weui-media-box__desc"></view>
@@ -35,9 +35,9 @@
 
         </view>
 
-        <image src="../../image/deleteMoment.jpg" class="weui-media-box__title deleteBtn" mode="aspectFill" />
+        <image src="../../image/deleteMoment.jpg" class="weui-media-box__title deleteBtn" mode="aspectFill" catchtap='deleteMoment' data-id="{{item.id}}" data-content="{{item.content}}"/>
 
-      </navigator>
+      </view>
       <view class="weui-media-box weui-media-box_appmsg">
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
           {{item.content}}
@@ -61,7 +61,7 @@
       <!-- 照片end-->
       <!-- 评论begin-->
       <view class="pl-other" wx:if="{{item.commentsList && item.commentsList.length > 0}}">
-        <view class="pl-p" wx:for="{{item.commentsList}}" wx:for-key="commentsItem" wx:for-item="commentsItem" catchtap='replyOther' data-creator="{{commentsItem.creator}}" data-id="{{item.id}}" bindlongpress='deleteReply' data-reply-id="{{commentsItem.id}}" data-content="{{commentsItem.contentDetail}}">
+        <view class="pl-p" wx:for="{{item.commentsList}}" wx:key="commentsItem" wx:for-item="commentsItem" catchtap='replyOther' data-creator="{{commentsItem.creator}}" data-id="{{item.id}}" bindlongpress='deleteReply' data-reply-id="{{commentsItem.id}}" data-content="{{commentsItem.contentDetail}}">
           <text class="org">{{commentsItem.creator}}</text>
           <text wx:if="{{commentsItem.creator != commentsItem.aimUser && commentsItem.aimUser != null}}">回复<text class="org">{{commentsItem.aimUser}}: </text></text>
           <text wx:else class="org">: </text>
@@ -88,7 +88,7 @@
 <view class="comment-fixed" wx:if="{{commentShow}}">
   <view class="cf-box">
 
-    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="{{replyPlaceholder}}" />
+    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="300" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="{{replyPlaceholder}}" />
     <view class="emoji iconfont emojiBtn" catchtap="emojiShowHide">
       <image class="emojiBtn" catchtap="emojiShowHide" src="{{basepath}}emojis/13.gif"></image>
     </view>
@@ -98,7 +98,7 @@
   <!--emoji表情盒子-->
   <view class="emoji-box {{isShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isLoad ? 'no-emoji-move' : ''}}">
     <scroll-view scroll-y="true" bindscroll="emojiScroll" style="height:200px">
-      <block wx:for="{{emojiList}}" wx:for-item="emoji" wx:key="">
+      <block wx:for="{{emojiList}}" wx:for-item="emoji" wx:key="emoji">
         <view class="emoji-cell" catchtap="emojiChoose" data-emoji="{{emoji}}">
           {{emoji}}
         </view>
