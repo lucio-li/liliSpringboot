@@ -110,8 +110,8 @@ App({
     curCity: '',
     is_login: false,
     //basepath: "https://lq555.cn/lili/",//服务器地址
-    //basepath: "http://localhost:8777/lili/",
-    basepath: "http://47.107.182.247:8080/",
+    basepath: "http://localhost:8080/lili/",
+    //basepath: "http://47.107.182.247:8080/",
     mapKey: 'L44BZ-HBMKF-UK3J3-NDARG-GNNTO-3DFKK', //腾讯地图api用到的秘钥key
     sessionId: null //当前会话的sessionId，主要用于验证码
   },

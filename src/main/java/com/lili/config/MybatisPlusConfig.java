@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 描述: Mybatis-Plus配置文件
- *
- * @author Yangjinming
+
  * @create 2018-04-08 下午7:22
  */
 @Configuration
