@@ -79,7 +79,7 @@ Page({
     this.setData({
       authorizeShow: false
     })
-    that.updateUser(nickName, avatarUrl);
+    this.updateUser(nickName, avatarUrl);
   },
   /**
    * 新增或者更新用户
