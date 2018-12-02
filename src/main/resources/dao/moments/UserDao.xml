@@ -8,9 +8,6 @@
         <result column="headImg" jdbcType="VARCHAR" property="headImg" />
         <!--<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />-->
     </resultMap>
-    <!--<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mblc.seo.cms.htmlgen.model.CmsStaticData">-->
-        <!--<result column="json" jdbcType="LONGVARCHAR" property="json" />-->
-    <!--</resultMap>-->
     <select id="selectAll" resultMap="BaseResultMap">
         select id,name, openid, headImg from user
     </select>
@@ -21,7 +18,7 @@
         insert into user(id, name, openid, headImg) values(#{id}, #{name}, #{openid}, #{headImg})
     </insert>
     <update id="updateOne" parameterType="com.lili.entity.moments.User">
-        UPDATE USER SET  name = #{name}, headImg=#{headImg} where  openid = #{openid}
+        UPDATE user SET  name = #{name}, headImg=#{headImg} where  openid = #{openid}
 
     </update>
     <delete id="deleteOne" parameterType="com.lili.entity.moments.User">

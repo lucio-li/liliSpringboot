@@ -63,7 +63,7 @@
       <view class="pl-other" wx:if="{{item.commentsList && item.commentsList.length > 0}}">
         <view class="pl-p" wx:for="{{item.commentsList}}" wx:key="commentsItem" wx:for-item="commentsItem" catchtap='replyOther' data-creator="{{commentsItem.creator}}" data-id="{{item.id}}" bindlongpress='deleteReply' data-reply-id="{{commentsItem.id}}" data-content="{{commentsItem.contentDetail}}">
           <text class="org">{{commentsItem.creator}}</text>
-          <text wx:if="{{commentsItem.creator != commentsItem.aimUser && commentsItem.aimUser != null}}">回复<text class="org">{{commentsItem.aimUser}}: </text></text>
+          <text wx:if="{{commentsItem.creator != commentsItem.aimUser && commentsItem.aimUser }}">回复<text class="org">{{commentsItem.aimUser}}: </text></text>
           <text wx:else class="org">: </text>
           {{commentsItem.contentDetail}}
         </view>
@@ -88,7 +88,7 @@
 <view class="comment-fixed" wx:if="{{commentShow}}">
   <view class="cf-box">
 
-    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="300" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="{{replyPlaceholder}}" />
+    <input class="cf-content"  maxlength="300" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="{{replyPlaceholder}}" cursor-spacing="12"></input>
     <view class="emoji iconfont emojiBtn" catchtap="emojiShowHide">
       <image class="emojiBtn" catchtap="emojiShowHide" src="{{basepath}}emojis/13.gif"></image>
     </view>

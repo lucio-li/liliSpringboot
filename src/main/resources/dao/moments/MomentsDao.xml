@@ -22,7 +22,7 @@
     <select id="queryAll" resultMap="BaseResultMap" parameterType="com.lili.core.PageForm">
         SELECT momentTmp.id,momentTmp.content,momentTmp.location,momentTmp.creator,
 	    momentTmp.create_time AS createTime,
-	    USER .headImg, comments.id AS commentsId,comments.content AS contentDetail,
+	    user .headImg, comments.id AS commentsId,comments.content AS contentDetail,
 	    userComment.name AS commentCreator,comments.aim_user AS aimUser,
 	    attachment.id AS attachmentId
         FROM
@@ -30,10 +30,10 @@
             moments.create_time DESC limit #{currentPage} ,#{pageSize}) momentTmp
         LEFT JOIN comments ON momentTmp.id = comments.moments_id
         AND comments. STATUS = 1
-        left JOIN USER userComment on  userComment.openid = comments.creator
+        left JOIN user userComment on  userComment.openid = comments.creator
         LEFT JOIN attachment ON attachment.moments_id = momentTmp.id
         AND attachment. STATUS = 1
-        LEFT JOIN USER ON USER .openid = momentTmp.creator
+        LEFT JOIN user ON user .openid = momentTmp.creator
 	    ORDER BY momentTmp.create_time DESC, comments.create_time ASC, attachment.create_time ASC
 
     </select>

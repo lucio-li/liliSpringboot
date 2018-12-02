@@ -123,7 +123,7 @@ Page({
     var that = this;
     var options = {};
     options.currentPage = currentPage;
-    options.pageSize = pageSize;
+    options.pageSize = pageSize * 10;
     var opp = {};
     opp.url = "moments/list";
     opp.data = options;
@@ -146,16 +146,16 @@ Page({
           })
           return;
         }
-        for (var i = 0; i < moments.length; i++) {
-          moments[i].createTime = moments[i].createTime.slice(0, moments[i].createTime.indexOf("."));
+        // for (var i = 0; i < moments.length; i++) {
+        //   moments[i].createTime = moments[i].createTime.slice(0, moments[i].createTime.indexOf("."));
           
 
-        }
+        // }
         that.setData({
           moments: moments
         })
       } else {
-        that.getMomentsList();
+        // that.getMomentsList();
       }
 
     })
@@ -290,7 +290,7 @@ Page({
    */
   textAreaBlur: function(e) {
     this.setData({
-      contentDetail: e.detail.value
+      content: e.detail.value
     })
   },
 
