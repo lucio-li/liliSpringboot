@@ -3,6 +3,7 @@
   {{test}}
 </view>
 <view class="page" bindtap='hideEmoji'>
+  <scroll-view bindscrolltolower="moreMoments" style="height: {{winHeight?winHeight+'px':'auto'}}" class='content' scroll-y="{{true}}">
   <image class="userImageBackground" src="../../image/lover.jpg" />
   <view class="page__hd">
     <view class="weui-search-bar">
@@ -23,7 +24,7 @@
     </view>
 
     <!-- 照片begin--->
-    <scroll-view bindscrolltolower="moreMoments" style="height: {{winHeight?winHeight+'px':'auto'}}" class='content' scroll-y="{{true}}">
+    
       <view class='weui-cells paddingT' wx:for="{{moments}}" wx:key="momentsItem">
         <view url="" class="weui-media-box weui-media-box_appmsg">
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
@@ -70,11 +71,10 @@
         </view>
         <!-- 评论end-->
       </view>
-    </scroll-view>
+    
   </view>
 
-
-
+  </scroll-view>
 
 </view>
 <view class='user-info' wx:if="{{authorizeShow}}">
