@@ -81,7 +81,7 @@ swagger:
 id-type: 0
 # Sequence序列接口实现类配置
 #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
-
+#配置分页插件pagehelper
 
 
 #图片存放地址

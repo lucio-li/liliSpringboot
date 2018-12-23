@@ -23,53 +23,54 @@
     </view>
 
     <!-- 照片begin--->
-    <view class='weui-cells paddingT' wx:for="{{moments}}" wx:key="momentsItem">
-      <view url="" class="weui-media-box weui-media-box_appmsg" >
-        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{item.headImg}}" />
-          <view class="weui-media-box__desc"></view>
-        </view>
-        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{item.createTime}}</view>
-          <view class="weui-media-box__title">{{item.location}}</view>
+    <scroll-view bindscrolltolower="moreMoments" style="height: {{winHeight?winHeight+'px':'auto'}}" class='content' scroll-y="{{true}}">
+      <view class='weui-cells paddingT' wx:for="{{moments}}" wx:key="momentsItem">
+        <view url="" class="weui-media-box weui-media-box_appmsg">
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+            <image class="weui-media-box__thumb" src="{{item.headImg}}" />
+            <view class="weui-media-box__desc"></view>
+          </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">{{item.createTime}}</view>
+            <view class="weui-media-box__title">{{item.location}}</view>
+
+          </view>
+
+          <image src="../../image/deleteMoment.jpg" class="weui-media-box__title deleteBtn" mode="aspectFill" catchtap='deleteMoment' data-id="{{item.id}}" data-content="{{item.content}}" />
 
         </view>
-
-        <image src="../../image/deleteMoment.jpg" class="weui-media-box__title deleteBtn" mode="aspectFill" catchtap='deleteMoment' data-id="{{item.id}}" data-content="{{item.content}}"/>
-
-      </view>
-      <view class="weui-media-box weui-media-box_appmsg">
-        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-          {{item.content}}
+        <view class="weui-media-box weui-media-box_appmsg">
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            {{item.content}}
+          </view>
         </view>
-      </view>
 
-      <view class="weui-grids" wx:if="{{item.attachmentList && item.attachmentList.length > 0}}">
-        <block wx:for="{{item.attachmentList}}" wx:key="attachmentItem" wx:for-item="attachmentItem" wx:for-index="{{attachmentInedx}}">
+        <view class="weui-grids" wx:if="{{item.attachmentList && item.attachmentList.length > 0}}">
+          <block wx:for="{{item.attachmentList}}" wx:key="attachmentItem" wx:for-item="attachmentItem" wx:for-index="{{attachmentInedx}}">
 
-          <image class="weui-grid img" src="{{basepath}}/moments/attach?attachId={{attachmentItem}}" mode="aspectFill" catchtap='previewImage' data-index="{{attachmentInedx}}" data-images="{{item.attachmentList}}" />
-        </block>
-      </view>
-      <view class="c-bottom">
-
-        <view class="right">
-          <!-- <text class="iconfont icon-liulan1 r-icon-browse"> {{v.browse}}</text> -->
-          <text class="iconfont icon-xihuan r-icon-like"> {{v.like}}</text>
-          <text class="iconfont icon-pinglun1 r-icon-comment" catchtap='clickComment' data-id="{{item.id}}"> {{v.comment}}</text>
+            <image class="weui-grid img" src="{{basepath}}/moments/attach?attachId={{attachmentItem}}" mode="aspectFill" catchtap='previewImage' data-index="{{attachmentInedx}}" data-images="{{item.attachmentList}}" />
+          </block>
         </view>
-      </view>
-      <!-- 照片end-->
-      <!-- 评论begin-->
-      <view class="pl-other" wx:if="{{item.commentsList && item.commentsList.length > 0}}">
-        <view class="pl-p" wx:for="{{item.commentsList}}" wx:key="commentsItem" wx:for-item="commentsItem" catchtap='replyOther' data-creator="{{commentsItem.creator}}" data-id="{{item.id}}" bindlongpress='deleteReply' data-reply-id="{{commentsItem.id}}" data-content="{{commentsItem.contentDetail}}">
-          <text class="org">{{commentsItem.creator}}</text>
-          <text wx:if="{{commentsItem.creator != commentsItem.aimUser && commentsItem.aimUser }}">回复<text class="org">{{commentsItem.aimUser}}: </text></text>
-          <text wx:else class="org">: </text>
-          {{commentsItem.contentDetail}}
+        <view class="c-bottom">
+
+          <view class="right">
+            <!-- <text class="iconfont icon-liulan1 r-icon-browse"> {{v.browse}}</text> -->
+            <text class="iconfont icon-xihuan r-icon-like"> {{v.like}}</text>
+            <text class="iconfont icon-pinglun1 r-icon-comment" catchtap='clickComment' data-id="{{item.id}}"> {{v.comment}}</text>
+          </view>
         </view>
+        <!-- 照片end-->
+        <!-- 评论begin-->
+        <view class="pl-other" wx:if="{{item.commentsList && item.commentsList.length > 0}}">
+          <view class="pl-p" wx:for="{{item.commentsList}}" wx:key="commentsItem" wx:for-item="commentsItem" catchtap='replyOther' data-creator="{{commentsItem.creator}}" data-id="{{item.id}}" bindlongpress='deleteReply' data-reply-id="{{commentsItem.id}}" data-content="{{commentsItem.contentDetail}}">
+            <text class="org">{{commentsItem.creator}}</text>
+            <text wx:if="{{commentsItem.creator != commentsItem.aimUser && commentsItem.aimUser }}">回复<text class="org">{{commentsItem.aimUser}}: </text></text>
+            <text wx:else class="org">: </text> {{commentsItem.contentDetail}}
+          </view>
+        </view>
+        <!-- 评论end-->
       </view>
-      <!-- 评论end-->
-    </view>
+    </scroll-view>
   </view>
 
 
@@ -88,7 +89,7 @@
 <view class="comment-fixed" wx:if="{{commentShow}}">
   <view class="cf-box">
 
-    <input class="cf-content"  maxlength="300" bindblur="textAreaBlur" auto-height value="{{content}}" placeholder="{{replyPlaceholder}}" cursor-spacing="12"></input>
+    <input class="cf-content" maxlength="300" bindinput="textAreaBlur" auto-height value="{{content}}" placeholder="{{replyPlaceholder}}" cursor-spacing="12"></input>
     <view class="emoji iconfont emojiBtn" catchtap="emojiShowHide">
       <image class="emojiBtn" catchtap="emojiShowHide" src="{{basepath}}emojis/13.gif"></image>
     </view>

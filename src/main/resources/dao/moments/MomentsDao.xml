@@ -27,7 +27,7 @@
 	    attachment.id AS attachmentId
         FROM
             (select * from moments where moments.STATUS = 1  ORDER BY
-            moments.create_time DESC limit #{currentPage} ,#{pageSize}) momentTmp
+            moments.create_time DESC limit #{currentPage}, #{pageSize}) momentTmp
         LEFT JOIN comments ON momentTmp.id = comments.moments_id
         AND comments. STATUS = 1
         left JOIN user userComment on  userComment.openid = comments.creator

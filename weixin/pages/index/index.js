@@ -2,7 +2,7 @@ var app = getApp();
 var replyObj = {};
 var openid = "";
 var emojiChar = "😋-😌-😍-😏-😜-😝-😞-😔-😪-😭-😁-😂-😃-😅-😆-👿-😒-😓-😔-😏-😖-😘-😚-😒-😡-😢-😣-😤-😢-😨-😳-😵-😷-😸-😻-😼-😽-😾-😿-🙊-🙋-🙏-✈-🚇-🚃-🚌-🍄-🍅-🍆-🍇-🍈-🍉-🍑-🍒-🍓-🐔-🐶-🐷-👦-👧-👱-👩-👰-👨-👲-👳-💃-💄-💅-💆-💇-🌹-💑-💓-💘-🚲";
-var currentPage = 0;
+var currentPage = 1;
 var pageSize = 10;
 var hasNext = true;
 Page({
@@ -42,6 +42,15 @@ Page({
     this.setData({
       emojiList: emojiList
     })
+
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          winWidth: res.windowWidth,
+          winHeight: res.windowHeight
+        });
+      }
+    });
   },
   /**
    * 生命周期函数--监听页面显示
@@ -123,7 +132,7 @@ Page({
     var that = this;
     var options = {};
     options.currentPage = currentPage;
-    options.pageSize = pageSize * 10;
+    options.pageSize = pageSize;
     var opp = {};
     opp.url = "moments/list";
     opp.data = options;
@@ -133,32 +142,33 @@ Page({
     app.networkRequest(opp, function(res) {
       if (res.data) {
         var moments = res.data.datas;
-        if (!moments) {
-          wx.showModal({
-            title: '提示',
-            content: '无数据',
-            showCancel: false,
-            success: function(res) {
-              if(res.confirm) {
-
-              }
-            }
-          })
-          return;
+        if (moments.length < pageSize) {
+          hasNext = false;
+        } else {
+          hasNext = true;
         }
-        // for (var i = 0; i < moments.length; i++) {
-        //   moments[i].createTime = moments[i].createTime.slice(0, moments[i].createTime.indexOf("."));
-          
-
-        // }
+        var momentsPage = that.data.moments;
+        if (!momentsPage) {
+          momentsPage = [];
+        }
+        momentsPage = momentsPage.concat(moments);
         that.setData({
-          moments: moments
+          moments: momentsPage
         })
       } else {
         // that.getMomentsList();
       }
 
     })
+  },
+
+  //下一页
+  moreMoments: function() {
+    console.log("底部")
+    if (hasNext) {
+      currentPage++;
+      this.getMomentsList();
+    }
   },
   /**
    * 图片预览

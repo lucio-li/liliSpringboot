@@ -38,6 +38,7 @@ public class MomentsServiceImpl implements MomentsService {
             if (pageForm == null) {
                 pageForm = new PageForm();
             }
+            pageForm.setCurrentPage((pageForm.getCurrentPage() - 1) * pageForm.getPageSize());
 
             List<MomentsVo> momentsList = momentsDao.queryAll(pageForm);
             int count = momentsDao.selectCount();
